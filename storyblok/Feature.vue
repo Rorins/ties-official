@@ -1,0 +1,18 @@
+<template>
+  <div v-editable="blok">
+  <h3 class="text-lg">{{ blok.headline }}</h3>
+  <img :src=blok.image.filename :alt="blok.headline" />
+  <p class="text-lg">{{ blok.description}}</p>
+  </div>
+</template>
+   
+<script setup>
+  defineProps({ blok: Object })
+</script>
+
+
+<style scoped lang='scss'>
+  img{
+  width: 200px;
+}
+</style>

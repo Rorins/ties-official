@@ -1,0 +1,37 @@
+<template>
+    <div
+      v-editable="blok"
+    >
+    <section class="grid bg_colordark">
+      <div class="container">
+      <div><h2>{{blok.title}}</h2></div>
+      <div class="row h_300 text-center">
+        <StoryblokComponent
+        v-for="blok in blok.columns"
+        :key="blok._uid"
+        :blok="blok"
+        class="col-md-4 col-12"
+      />
+    </div>
+    </div>
+    </section>
+    </div>
+  </template>
+   
+  <script setup>
+  defineProps({ blok: Object })
+  </script>
+
+<style scoped lang='scss'>
+.container{
+  padding: 80px 0;
+  div{
+    text-align:center;
+    h2 {
+    padding-bottom: 60px;
+    font-size: 50px;
+
+  }
+}
+} 
+</style>
