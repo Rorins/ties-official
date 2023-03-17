@@ -1,6 +1,6 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+require('dotenv').config()
 export default defineNuxtConfig({
-    modules: [['@storyblok/nuxt', { accessToken: 'CfLCSCTxmfFxPSM42WY5Awtt' }],'@nuxtjs/google-fonts'],
+    modules: [['@storyblok/nuxt', { accessToken: process.env.STORYBLOK_ACCESS_TOKEN  }],'@nuxtjs/google-fonts'],
     build: {
       loaders: {
         scss: { implementation: require('sass') }
