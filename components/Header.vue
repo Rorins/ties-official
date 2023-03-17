@@ -37,29 +37,10 @@
                 <nuxt-link class="nav-link" to="/listeners">Listeners</nuxt-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Blog</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Community
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+                <nuxt-link class="nav-link" to="/blog">Blog</nuxt-link>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="#">About Us </a>
+                <nuxt-link class="nav-link" to="/about-us">About us</nuxt-link>
               </li>
             </ul>
           </div>
