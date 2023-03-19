@@ -23,7 +23,8 @@ defineProps({ blok: Object });
 </script>
 
 <style scoped lang="scss">
-.container {
+.grid{
+  .container {
   padding: 80px 0;
   div {
     text-align: center;
@@ -33,5 +34,7 @@ defineProps({ blok: Object });
       font-weight: 300;
     }
   }
+}
+
 }
 </style>

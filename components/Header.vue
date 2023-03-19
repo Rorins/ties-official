@@ -84,7 +84,6 @@ function toggleMenu() {
   text-align:center;
   margin:100px auto;
   font-size:60px;
-  transition: all 0.3s ease-in-out;
 }
 
 }
