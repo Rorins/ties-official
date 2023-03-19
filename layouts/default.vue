@@ -1,6 +1,6 @@
 <template>
-    <main>
-      <Header />
-      <slot />
-    </main>
-  </template>
+  <main>
+    <Header />
+    <slot />
+  </main>
+</template>

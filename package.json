@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "format": "prettier --write \"**/*.{js,vue,json,md}\"",
     "build": "nuxt build",
     "dev": "nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
     "generate": "nuxt generate",
@@ -10,6 +11,7 @@
   "devDependencies": {
     "dotenv": "^16.0.3",
     "nuxt": "^3.3.1",
+    "prettier": "^2.8.4",
     "sass": "^1.59.3",
     "sass-loader": "^13.2.0"
   },

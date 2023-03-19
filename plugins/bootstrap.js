@@ -1,4 +1,3 @@
-import * as Bootstrap from 'bootstrap'
+import * as Bootstrap from "bootstrap";
 
-export default Bootstrap
-
+export default Bootstrap;
