@@ -24,8 +24,8 @@ defineProps({ blok: Object });
 
 <style scoped lang="scss">
 .grid{
-  .container {
   padding: 80px 0;
+  .container {
   div {
     text-align: center;
     h2.title {

@@ -26,7 +26,7 @@ const asset = computed(() => renderRichText(props.blok.asset));
   padding: 80px 0;
   .second_column h2,
   .first_column h2 {
-    font-weight: 300;
+    font-weight: 400;
     margin: 30px 0px;
   }
   .second_column h2:nth-child(5),

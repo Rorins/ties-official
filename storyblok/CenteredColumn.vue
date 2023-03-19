@@ -3,7 +3,7 @@
     <div class="container centered_column ">
       <img class="icon" :src="blok.image.filename" :alt="blok.headline" />
       <p class="text-lg">{{ blok.text }}</p>
-      <button class="btn btn-dark btn-outline-light" v-html="button"></button>
+      <button type="button" class="btn btn-outline-light" v-html="button"></button>
     </div>
   </div>
 </template>
@@ -20,8 +20,13 @@ const button = computed(() => renderRichText(props.blok.button));
   .icon {
     width: 200px;
   }
+  //Button style
   button{
     height:60px; 
+    background-color:black;
+  &:hover a{
+    color:black;
+  }
   p{
     margin: 2px auto;
     a{
