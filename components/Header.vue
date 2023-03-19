@@ -6,6 +6,7 @@
           ><img src="~/assets/logo.png" alt="Ties"
         /></nuxt-link>
         <button
+          @click="toggleMenu"
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -16,13 +17,13 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div class="navbar-nav me-auto mb-2 mb-lg-0"></div>
+        <div class="collapse navbar-collapse" :class="{ 'full-page' : isActive }" id="navbarSupportedContent">
+          <div class="navbar-nav me-auto mb-2 mb-lg-0" ></div>
           <div>
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav" >
               <li>
                 <!--TO SUBSCRIBE-->
-                <nuxt-link class="btn btn-outline-dark" to="/subscribe"
+                <nuxt-link class="nav-link" to="/subscribe"
                   >Get started</nuxt-link
                 >
               </li>
@@ -49,10 +50,21 @@
   </header>
 </template>
 
-<style scoped lang="scss">
-@import "@/assets/style/global.scss";
-@import "@/assets/style/utilities.scss";
+<script setup>
+import { ref } from 'vue'
 
+const menuOpen = ref(false)
+let isActive = ref(false)
+
+function toggleMenu() {
+  isActive.value = !isActive.value
+  menuOpen.value = !menuOpen.value
+  document.body.style.overflow = menuOpen.value ? 'hidden' : 'auto'
+}
+</script>
+
+
+<style scoped lang="scss">
 /*NAVBAR*/
 .navbar {
   background-color: #ebe2db !important;
@@ -63,4 +75,18 @@
 .right_nav li {
   padding: 0 10px;
 }
+
+
+//Mediaquery for full page toggle
+@media screen and (max-width: 991px) {
+  .full-page{
+  height:100vh;
+  text-align:center;
+  margin:100px auto;
+  font-size:60px;
+  transition: all 0.3s ease-in-out;
+}
+
+}
+
 </style>
