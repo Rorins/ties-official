@@ -12,18 +12,20 @@ export default defineNuxtConfig({
       }
     },
     css: [
-        '~/node_modules/bootstrap/dist/css/bootstrap.css',
+       'bootstrap/dist/css/bootstrap.css',
         '@/assets/style/global.scss',
         '@/assets/style/utilities.scss',
       ],
       googleFonts: {
         families: {
-          Quicksand: true,
+          Quicksand: {
+            wght: [300,400,500,600]
+          },
           'Open+Sans': true
         }
       },
       plugins: [
-        { src: 'bootstrap/dist/js/bootstrap.js', mode: 'client' }
+        { src: '~/plugins/bootstrap.js', mode: 'client' }
       ]
       
 }

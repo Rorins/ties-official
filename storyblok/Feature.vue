@@ -12,6 +12,9 @@
 
 
 <style scoped lang='scss'>
+h3{
+  font-weight:300;
+}
   img{
   width: 200px;
 }

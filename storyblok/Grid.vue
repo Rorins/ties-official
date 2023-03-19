@@ -4,7 +4,7 @@
     >
     <section class="grid bg_colordark">
       <div class="container">
-      <div><h2>{{blok.title}}</h2></div>
+      <div><h2 class="title">{{blok.title}}</h2></div>
       <div class="row h_300 text-center">
         <StoryblokComponent
         v-for="blok in blok.columns"
@@ -27,10 +27,10 @@
   padding: 80px 0;
   div{
     text-align:center;
-    h2 {
+    h2.title{
     padding-bottom: 60px;
     font-size: 50px;
-
+    font-weight:300;
   }
 }
 } 

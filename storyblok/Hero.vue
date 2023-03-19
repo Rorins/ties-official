@@ -4,17 +4,18 @@
         <div class="hero">
         <div class="container-fluid">
           <div class="row h_600 bg">
-            <div :style="{ backgroundImage: `url(${blok.banner.filename})` }" class="hero-image col-12 col-md-7"></div>
+            <div :style="{ backgroundImage: `url(${blok.banner.filename})` }" class="hero-image col-12 col-lg-6"></div>
             <div
               class="
-                col-12 col-md-5
+                col-lg-6
+                col-12 
                 bg_colorlight
                 d-flex
                 align-items-center
                 text-center
               "
             >
-              <p>
+              <p class="p_20">
                 {{blok.quote}}
               </p>
             </div>
@@ -43,5 +44,12 @@
     background-size: cover;
     background-repeat: no-repeat;
   }
+
+   //Added mediaquery
+   @media screen and (max-width:991px){
+    .hero-image{
+    height:400px
+   }
+    }
   
   </style>
