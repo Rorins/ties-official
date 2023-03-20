@@ -23,18 +23,17 @@ defineProps({ blok: Object });
 </script>
 
 <style scoped lang="scss">
-.grid{
+.grid {
   padding: 80px 0;
   .container {
-  div {
-    text-align: center;
-    h2.title {
-      padding-bottom: 60px;
-      font-size: 50px;
-      font-weight: 300;
+    div {
+      text-align: center;
+      h2.title {
+        padding-bottom: 60px;
+        font-size: 50px;
+        font-weight: 300;
+      }
     }
   }
-}
-
 }
 </style>

@@ -29,7 +29,6 @@ defineProps({ blok: Object });
 <style scoped lang="scss">
 /*HERO*/
 .hero {
-  padding-top: 20px;
   p {
     font-size: 30px;
   }

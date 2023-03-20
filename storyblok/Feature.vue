@@ -11,15 +11,15 @@ defineProps({ blok: Object });
 </script>
 
 <style scoped lang="scss">
-.feature{
+.feature {
   h3 {
-  font-weight: 300;
-}
-img {
-  width: 200px;
-}
-p{
-  padding:10px;
-}
+    font-weight: 300;
+  }
+  img {
+    width: 200px;
+  }
+  p {
+    padding: 10px;
+  }
 }
 </style>
