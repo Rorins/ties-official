@@ -1,9 +1,13 @@
 <template>
   <div class="bg_colordark" v-editable="blok">
-    <div class="container centered_column ">
+    <div class="container centered_column">
       <img class="icon" :src="blok.image.filename" :alt="blok.headline" />
       <p class="text-lg">{{ blok.text }}</p>
-      <button type="button" class="btn btn-outline-light" v-html="button"></button>
+      <button
+        type="button"
+        class="btn btn-outline-light"
+        v-html="button"
+      ></button>
     </div>
   </div>
 </template>
@@ -21,19 +25,19 @@ const button = computed(() => renderRichText(props.blok.button));
     width: 200px;
   }
   //Button style
-  button{
-    height:60px; 
-    background-color:black;
-  &:hover a{
-    color:black;
-  }
-  p{
-    margin: 2px auto;
-    a{
-      text-decoration:none;
-      color:white;
+  button {
+    height: 60px;
+    background-color: black;
+    &:hover a {
+      color: black;
     }
-  }
+    p {
+      margin: 2px auto;
+      a {
+        text-decoration: none;
+        color: white;
+      }
+    }
   }
 }
 </style>

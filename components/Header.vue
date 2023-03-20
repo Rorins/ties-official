@@ -17,10 +17,14 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" :class="{ 'full-page' : isActive }" id="navbarSupportedContent">
-          <div class="navbar-nav me-auto mb-2 mb-lg-0" ></div>
+        <div
+          class="collapse navbar-collapse"
+          :class="{ 'full-page': isActive }"
+          id="navbarSupportedContent"
+        >
+          <div class="navbar-nav me-auto mb-2 mb-lg-0"></div>
           <div>
-            <ul class="navbar-nav" >
+            <ul class="navbar-nav">
               <li>
                 <!--TO SUBSCRIBE-->
                 <nuxt-link class="nav-link" to="/subscribe"
@@ -51,18 +55,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const menuOpen = ref(false)
-let isActive = ref(false)
+const menuOpen = ref(false);
+let isActive = ref(false);
 
 function toggleMenu() {
-  isActive.value = !isActive.value
-  menuOpen.value = !menuOpen.value
-  document.body.style.overflow = menuOpen.value ? 'hidden' : 'auto'
+  isActive.value = !isActive.value;
+  menuOpen.value = !menuOpen.value;
+  document.body.style.overflow = menuOpen.value ? "hidden" : "auto";
 }
 </script>
-
 
 <style scoped lang="scss">
 /*NAVBAR*/
@@ -76,16 +79,13 @@ function toggleMenu() {
   padding: 0 10px;
 }
 
-
 //Mediaquery for full page toggle
 @media screen and (max-width: 991px) {
-  .full-page{
-  height:100vh;
-  text-align:center;
-  margin:100px auto;
-  font-size:60px;
+  .full-page {
+    height: 100vh;
+    text-align: center;
+    margin: 100px auto;
+    font-size: 60px;
+  }
 }
-
-}
-
 </style>
