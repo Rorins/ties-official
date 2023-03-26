@@ -34,7 +34,6 @@ articles.value = data.stories;
 <style scoped lang="scss">
 .all_articles {
   margin-top: 70px;
-  height: 100vh;
   .titles {
     text-align: center;
     padding: 100px 0;
