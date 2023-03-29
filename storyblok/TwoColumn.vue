@@ -1,5 +1,9 @@
 <template>
-  <section v-editable="blok" class="two_column bg_colorlight"  :class="{ 'bg_colordark': useBackground }">
+  <section
+    v-editable="blok"
+    class="two_column bg_colorlight"
+    :class="{ bg_colordark: useBackground }"
+  >
     <div class="container">
       <div class="row">
         <div
@@ -16,8 +20,9 @@
 </template>
 
 <script setup>
-const props = defineProps({ 
-  blok: Object});
+const props = defineProps({
+  blok: Object,
+});
 
 const richtext = computed(() => renderRichText(props.blok.description));
 const asset = computed(() => renderRichText(props.blok.asset));
@@ -37,22 +42,21 @@ const useBackground = computed(() => props.blok.useBackground);
     text-align: right;
   }
   //medium image
-  .first_column .medium-width
-  .second_column .medium-width {
+  .first_column .medium-width .second_column .medium-width {
     display: block;
     text-align: center;
   }
   .first_column .medium-width img,
-    .second_column .medium-width img {
-      width: 80%;
-    }
- //regular big image
-    .first_column img,
-    .second_column img {
-      width: 100%;
-      height:100%;
-      object-fit:cover;
-    }
+  .second_column .medium-width img {
+    width: 80%;
+  }
+  //regular big image
+  .first_column img,
+  .second_column img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   //Added mediaquery
   @media screen and (max-width: 580px) {

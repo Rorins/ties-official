@@ -1,5 +1,13 @@
 require("dotenv").config();
 export default defineNuxtConfig({
+  head: {
+    link: [
+      {
+        rel: "stylesheet",
+        href: "https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css",
+      },
+    ],
+  },
   modules: [
     ["@storyblok/nuxt", { accessToken: process.env.STORYBLOK_ACCESS_TOKEN }],
     "@nuxtjs/google-fonts",

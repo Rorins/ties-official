@@ -27,7 +27,7 @@
             <ul class="navbar-nav">
               <li>
                 <!--TO SUBSCRIBE-->
-                <nuxt-link class="nav-link" to="/subscribe"
+                <nuxt-link class="nav-link" to="/sign-up"
                   >Get started</nuxt-link
                 >
               </li>
