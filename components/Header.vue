@@ -25,6 +25,9 @@
           <div class="navbar-nav me-auto mb-2 mb-lg-0"></div>
           <div>
             <ul class="navbar-nav">
+              <li @click="handleLogout" class="user">
+                <img src="~/assets/fox.png" alt="Fox"/>
+              </li>
               <li>
                 <!--TO SUBSCRIBE-->
                 <nuxt-link class="nav-link" to="/sign-up"
@@ -56,6 +59,11 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from 'vue-router'
+
+//Functions firebase for authentication
+const { logoutUser, error } = useAuth()
+const router = useRouter()
 
 const menuOpen = ref(false);
 let isActive = ref(false);
@@ -65,6 +73,14 @@ function toggleMenu() {
   menuOpen.value = !menuOpen.value;
   document.body.style.overflow = menuOpen.value ? "hidden" : "auto";
 }
+
+//logout
+const handleLogout = async () => {
+  await logoutUser()
+  if (!error.value) {
+    router.push('/')
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -73,6 +89,19 @@ function toggleMenu() {
   background-color: #ebe2db !important;
   img {
     height: 50px;
+  }
+  .user{
+    background-color:white;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    margin:0 20px;
+    img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      border-radius:inherit;
+    }
   }
 }
 .right_nav li {

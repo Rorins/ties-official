@@ -4,9 +4,8 @@
       <img class="icon" :src="blok.image.filename" :alt="blok.headline" />
       <p>{{ blok.text }}</p>
       <StoryblokComponent
-        v-if="blok.button.length > 0"
         :blok="blok.button[0]"
-        :key="blok._uid"
+        :key="blok?._uid"
       />
     </div>
   </div>
@@ -14,7 +13,6 @@
 
 <script setup>
 const props = defineProps({ blok: Object });
-const button = computed(() => renderRichText(props.blok.button));
 </script>
 
 <style scoped lang="scss">

@@ -5,8 +5,8 @@
       <img  
             class="icon"
             v-if="blok.icon?.filename"
-            :src="blok.icon.filename"
-            :alt="blok.icon.alt"
+            :src="blok.icon?.filename"
+            :alt="blok.icon?.alt"
           />
     </button>
   </a>
@@ -18,10 +18,9 @@ defineProps({ blok: Object });
 
 <style scoped lang="scss">
 a {
-  width: 280px;
   margin-bottom: 20px;
   .btn {
-    width: inherit;
+    width: 280px;
     background-color: black;
     color: white;
     padding: 10px;

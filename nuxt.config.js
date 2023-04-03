@@ -35,5 +35,6 @@ export default defineNuxtConfig({
       "Open+Sans": true,
     },
   },
-  plugins: [{ src: "~/plugins/bootstrap.js", mode: "client" }],
+  plugins: [{ src: "~/plugins/bootstrap.js", mode: "client" },
+  { src: '~/plugins/firebase.js', mode: 'client' }],
 });
