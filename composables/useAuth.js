@@ -5,14 +5,15 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendEmailVerification
+  sendEmailVerification,
+  sendPasswordResetEmail
 } from "firebase/auth";
 
 const useAuth = () => {
   const currentUser = ref(null);
   const error = ref(null);
 
-//User
+  //E-mail for verification or password reset
 const verifyEmail= async () => {
   try {
     const user = auth.currentUser
@@ -27,6 +28,20 @@ const verifyEmail= async () => {
   }
 }
 
+const passwordResetEmail = async (email) => {
+    try {
+      await sendPasswordResetEmail(
+        auth,
+        email,
+      );
+      error.value = null;
+    } catch (err) {
+      console.log(err.message);
+      error.value = err.message;
+    }
+  };
+
+//User
   const createUser = async (email, password) => {
     try {
       const { user } = await createUserWithEmailAndPassword(
@@ -64,6 +79,7 @@ const verifyEmail= async () => {
       error.value = err.message;
     }
   };
+
 
   //Google
   const loginWithGoogle = async () => {
@@ -106,7 +122,8 @@ const verifyEmail= async () => {
     logoutUser,
     loginWithGoogle,
     signUpWithGoogle,
-    verifyEmail
+    verifyEmail,
+    passwordResetEmail
   };
 };
 

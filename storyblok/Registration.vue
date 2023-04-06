@@ -17,6 +17,7 @@
             type="email"
             name="email"
             id="email"
+            placeholder="e-mail"
             required
           />
         </div>
@@ -29,6 +30,7 @@
             :type="showPassword ? 'text' : 'password'"
             name="password"
             id="password"
+            placeholder="password"
             required
           />
           <button @click="togglePwd">
@@ -71,6 +73,7 @@
             type="email"
             name="email"
             id="email"
+            placeholder="e-mail"
             required
           />
         </div>
@@ -83,12 +86,18 @@
             :type="showPassword ? 'text' : 'password'"
             name="password"
             id="password"
+            placeholder="password"
             required
           />
           <button @click="togglePwd">
             <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </button>
           </div>
+          <h3>
+            <a :href=blok.link.cached_url>
+            {{ blok.linkText}}
+           </a>
+         </h3>
         </div>
       </div>
         <div class="btn_container">
@@ -243,6 +252,13 @@ const togglePwd = () => {
             display: flex;
             flex-direction: column;
             align-items: center;
+          }
+        }
+        .password h3{
+          margin-top:10px;
+          font-size:15px;
+          a{
+            text-decoration: none;
           }
         }
         .password_input, .email_input{
