@@ -1,20 +1,42 @@
 <template>
   <div class="sign_page bg_colorlight" v-editable="blok">
     <!-- Sign up form -->
-    <div v-if =signUp class="sign_up bg_colordark">
+    <div v-if="signUp" class="sign_up bg_colordark">
       <figure class="image">
         <img :src="blok.img.filename" :alt="blok.img.alt" />
       </figure>
       <aside class="form">
         <h1>{{ blok.title }}</h1>
         <div v-html="undertitle"></div>
+        <div class="inputs">
         <div class="email">
-          <div><label for="email" >E-mail</label></div>
-          <input v-model="email" type="email" name="email" id="email" required/>
+          <div><label for="email">E-mail</label></div>
+          <div class="email_input">
+          <input
+            v-model="email"
+            type="email"
+            name="email"
+            id="email"
+            required
+          />
+        </div>
         </div>
         <div class="password">
           <div><label for="password">Password</label></div>
-          <input v-model="password" type="password" name="password" id="password" required/>
+          <div class="password_input">
+            <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            name="password"
+            id="password"
+            required
+          />
+          <button @click="togglePwd">
+            <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+          </div>
+          
+        </div>
         </div>
         <div class="btn_container">
           <button @click="registerUser">
@@ -22,35 +44,64 @@
           </button>
           <button @click="googleSignUp">
             {{ blok.buttons[1].text }}
-            <img class="google" :src="blok.buttons[1].icon.filename" :alt="blok.buttons[1].icon.filename" />
+            <img
+              class="google"
+              :src="blok.buttons[1].icon.filename"
+              :alt="blok.buttons[1].icon.filename"
+            />
           </button>
         </div>
       </aside>
     </div>
 
-      <!-- Sign in form -->
-    <div v-if =signIn class="sign_up bg_colordark">
+    <!-- Sign in form -->
+    <div v-if="signIn" class="sign_up bg_colordark">
       <figure class="image">
         <img :src="blok.img.filename" :alt="blok.img.alt" />
       </figure>
       <aside class="form">
         <h1>{{ blok.title }}</h1>
         <div v-html="undertitle"></div>
+        <div class="inputs">
         <div class="email">
-          <div><label for="email" >E-mail</label></div>
-          <input v-model="email" type="email" name="email" id="email" required/>
+          <div><label for="email">E-mail</label></div>
+        <div class="email_input">
+          <input
+            v-model="email"
+            type="email"
+            name="email"
+            id="email"
+            required
+          />
+        </div>
         </div>
         <div class="password">
           <div><label for="password">Password</label></div>
-          <input v-model="password" type="password" name="password" id="password" required/>
+          <div class="password_input">
+            <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            name="password"
+            id="password"
+            required
+          />
+          <button @click="togglePwd">
+            <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+          </div>
         </div>
+      </div>
         <div class="btn_container">
           <button @click="submitLogin">
             {{ blok.buttons[0].text }}
           </button>
           <button @click="googleLogin">
             {{ blok.buttons[1].text }}
-            <img class="google" :src="blok.buttons[1].icon.filename" :alt="blok.buttons[1].icon.filename" />
+            <img
+              class="google"
+              :src="blok.buttons[1].icon.filename"
+              :alt="blok.buttons[1].icon.filename"
+            />
           </button>
         </div>
       </aside>
@@ -59,9 +110,10 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-import useAuth from '~/composables/useAuth'
-import { ref } from 'vue'
+import { useRouter } from "vue-router";
+import useAuth from "~/composables/useAuth";
+import { ref } from "vue";
+//icons
 
 const props = defineProps({ blok: Object });
 const undertitle = computed(() => renderRichText(props.blok.undertitle));
@@ -69,42 +121,45 @@ const signUp = computed(() => props.blok.isSignUp);
 const signIn = computed(() => props.blok.isSignIn);
 
 //Functions firebase for authentication
-const { createUser, loginUser, loginWithGoogle, signUpWithGoogle, error } = useAuth()
-const email = ref('')
-const password = ref('')
-const router = useRouter()
+const { createUser, loginUser, loginWithGoogle, signUpWithGoogle, verifyEmail, error } =
+  useAuth();
+const email = ref("");
+const password = ref("");
+const showPassword = ref(false)
+const router = useRouter();
 
 //sign-in sign-up
 const registerUser = async () => {
-  console.log('email:', email.value, 'password:', password.value)
-  await createUser(email.value, password.value)
+  console.log("email:", email.value, "password:", password.value);
+  await createUser(email.value, password.value);
+  await verifyEmail();
   if (!error.value) {
-    router.push('/')
+    router.push("/");
   }
-}
+};
 
 const submitLogin = async () => {
-  console.log('email:', email.value, 'password:', password.value)
-  await loginUser(email.value, password.value)
+  console.log("email:", email.value, "password:", password.value);
+  await loginUser(email.value, password.value);
   if (!error.value) {
-    router.push('/')
+    router.push("/dashboard");
   }
-}
+};
 
 //Google
 const googleLogin = async () => {
-  await loginWithGoogle()
+  await loginWithGoogle();
   if (!error.value) {
-    router.push('/')
+    router.push("/dashboard");
   }
-}
+};
 
 const googleSignUp = async () => {
-  await signUpWithGoogle()
+  await signUpWithGoogle();
   if (!error.value) {
-    router.push('/')
+    router.push("/");
   }
-}
+};
 
 //logout
 // const handleLogout = async () => {
@@ -113,6 +168,11 @@ const googleSignUp = async () => {
 //     router.push('/')
 //   }
 // }
+
+//Password
+const togglePwd = () => {
+  showPassword.value = !showPassword.value
+}
 
 </script>
 
@@ -130,7 +190,7 @@ const googleSignUp = async () => {
     @media screen and (max-width: 851px) {
       & {
         display: block;
-        padding:0;
+        padding: 0;
       }
     }
     .image img {
@@ -159,27 +219,51 @@ const googleSignUp = async () => {
             align-items: center;
           }
         }
-        button{
-          background-color:black;
-          color:white;
+        button {
+          background-color: black;
+          color: white;
           border-radius: 10px;
-          padding:10px;
-          margin-bottom:10px;
-          min-width:250px;
-          .google{
-            width:30px;
-            margin-left:10px;
+          padding: 10px;
+          margin-bottom: 10px;
+          min-width: 250px;
+          .google {
+            width: 30px;
+            margin-left: 10px;
           }
-          &:hover{
-          background-color:white;
-          color:black;
+          &:hover {
+            background-color: white;
+            color: black;
+          }
         }
+      }
+      .inputs{
+        //Mediaquery
+        @media screen and (max-width: 851px) {
+          & {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+        }
+        .password_input, .email_input{
+        background-color:white;
+        border-radius: 10px;
+        padding: 10px;
+        display:flex;
+        justify-content:space-between;
+        width:250px;
+        button{
+          border:none;
+          
         }
       }
       input {
-        border-radius: 10px;
         border: 0;
-        padding: 10px;
+        background:white;
+        &:focus{
+          outline: none;
+        }
+      }
       }
     }
   }

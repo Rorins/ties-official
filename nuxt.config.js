@@ -2,10 +2,6 @@ require("dotenv").config();
 export default defineNuxtConfig({
   head: {
     link: [
-      {
-        rel: "stylesheet",
-        href: "https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css",
-      },
     ],
   },
   modules: [
@@ -17,6 +13,9 @@ export default defineNuxtConfig({
       scss: { implementation: require("sass") },
     },
   },
+  server: {       
+    host: '0', // default: localhost   
+  }, 
   vue: {
     config: {
       devtools: true,
@@ -35,6 +34,8 @@ export default defineNuxtConfig({
       "Open+Sans": true,
     },
   },
-  plugins: [{ src: "~/plugins/bootstrap.js", mode: "client" },
-  { src: '~/plugins/firebase.js', mode: 'client' }],
+  plugins: [
+    { src: "~/plugins/bootstrap.js", mode: "client" },
+    { src: "~/plugins/firebase.js", mode: "client" },
+  ],
 });

@@ -26,7 +26,10 @@
           <div>
             <ul class="navbar-nav">
               <li @click="handleLogout" class="user">
-                <img src="~/assets/fox.png" alt="Fox"/>
+                <img src="~/assets/fox.png" alt="Fox" />
+              </li>
+              <li @click="handleLogout" class="profile nav-item active">
+                Profile
               </li>
               <li>
                 <!--TO SUBSCRIBE-->
@@ -59,11 +62,11 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 
 //Functions firebase for authentication
-const { logoutUser, error } = useAuth()
-const router = useRouter()
+const { logoutUser, error } = useAuth();
+const router = useRouter();
 
 const menuOpen = ref(false);
 let isActive = ref(false);
@@ -76,11 +79,11 @@ function toggleMenu() {
 
 //logout
 const handleLogout = async () => {
-  await logoutUser()
+  await logoutUser();
   if (!error.value) {
-    router.push('/')
+    router.push("/");
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -90,17 +93,31 @@ const handleLogout = async () => {
   img {
     height: 50px;
   }
-  .user{
-    background-color:white;
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    margin:0 20px;
-    img{
-      width:100%;
-      height:100%;
+  .user {
+    background-color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 20px;
+    //Mediaquery for full page toggle
+  @media screen and (max-width: 991px) {
+    &{
+      display:none;
+    }
+    }   
+    img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius:inherit;
+      border-radius: inherit;
+    }
+  }
+  .profile{
+    display:none;
+    @media screen and (max-width: 991px) {
+    &{
+      display:block;
+    }
     }
   }
 }

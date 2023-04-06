@@ -2,12 +2,12 @@
   <a v-editable="blok" :href="blok.link.cached_url">
     <button type="button" class="btn">
       <h3>{{ blok.text }}</h3>
-      <img  
-            class="icon"
-            v-if="blok.icon?.filename"
-            :src="blok.icon?.filename"
-            :alt="blok.icon?.alt"
-          />
+      <img
+        class="icon"
+        v-if="blok.icon?.filename"
+        :src="blok.icon?.filename"
+        :alt="blok.icon?.alt"
+      />
     </button>
   </a>
 </template>
@@ -32,11 +32,11 @@ a {
     h3 {
       font-size: 20px;
       margin: 0;
-      display:inline-block;
+      display: inline-block;
     }
-    .icon{
-      width:30px;
-      margin:0 10px;
+    .icon {
+      width: 30px;
+      margin: 0 10px;
     }
   }
 }

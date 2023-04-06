@@ -3,10 +3,7 @@
     <div class="container centered_column">
       <img class="icon" :src="blok.image.filename" :alt="blok.headline" />
       <p>{{ blok.text }}</p>
-      <StoryblokComponent
-        :blok="blok.button[0]"
-        :key="blok?._uid"
-      />
+      <StoryblokComponent :blok="blok.button[0]" :key="blok?._uid" />
     </div>
   </div>
 </template>
