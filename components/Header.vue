@@ -45,11 +45,13 @@
               </div>
               
                <!-- Profile mobile -->
-               <nuxt-link v-if="currentUser" to="/dashboard">
-                <li class="profile nav-item active">
+               <nuxt-link v-if="currentUser" class="profile nav-link" to="/dashboard">
+                <li class=" nav-item active">
                 Profile
                 </li>
                </nuxt-link>
+
+
               <li>
                 <!--TO SUBSCRIBE-->
                 <nuxt-link class="nav-link" to="/sign-up"
@@ -115,6 +117,9 @@ const handleLogout = async () => {
 /*NAVBAR*/
 .navbar {
   background-color: #ebe2db !important;
+  a{
+    text-decoration:none;
+  }
   img {
     height: 50px;
   }
