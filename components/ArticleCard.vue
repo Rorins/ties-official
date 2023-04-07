@@ -29,7 +29,7 @@ defineProps({ article: Object, slug: String });
   color: black;
   width: 400px;
   min-height: 400px;
-  margin:10px;
+  margin: 10px;
 }
 .article_card {
   height: 100%;
