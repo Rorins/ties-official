@@ -112,11 +112,12 @@ const passwordResetEmail = async (email) => {
   // User state change, logged in or logged out
   auth.onAuthStateChanged((user) => {
     currentUser.value = user;
-    console.log("current user", currentUser);
+    console.log("current user", currentUser.value);
   });
 
   return {
     error,
+    currentUser,
     createUser,
     loginUser,
     logoutUser,
