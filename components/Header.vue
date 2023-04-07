@@ -45,9 +45,11 @@
               </div>
               
                <!-- Profile mobile -->
-              <li @click="handleLogout" class="profile nav-item active">
+               <nuxt-link v-if="currentUser" to="/dashboard">
+                <li class="profile nav-item active">
                 Profile
-              </li>
+                </li>
+               </nuxt-link>
               <li>
                 <!--TO SUBSCRIBE-->
                 <nuxt-link class="nav-link" to="/sign-up"
