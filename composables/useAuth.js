@@ -75,17 +75,21 @@ const passwordResetEmail = async (email) => {
       error.value = null;
       return user;
     } catch (err) {
+      console.log(err)
       if (err.code == "auth/invalid-email") {
         error.value = "Invalid email";
       }
       else if(err.code == "auth/email-already-in-use") {
         error.value ="e-mail already in use";
       }
+      else if(err.code == "auth/user-not-found") {
+        error.value ="user not found";
+      }
       else if(err.code == "auth/weak-password") {
         error.value ="password should be at least 6 characters long";
       }
       else if(err.code == "auth/wrong-password") {
-        error.value ="wrong password";
+        error.value ="password not correct";
       }
       else{
         error.value ="please fill all the required fields";
@@ -124,18 +128,9 @@ const passwordResetEmail = async (email) => {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
       error.value = null;
-      //From use object user
-      const { email, uid } = user;
-      await createUserWithEmailAndPassword(auth, email, uid);
       return user;
     } catch (err) {
       error.value = err.message;
-      if(err.code == "auth/email-already-in-use"){
-        alert("your e-mail is already in our database");
-      }
-      else{
-        alert(error.value);
-      }
       throw err
     }
   };

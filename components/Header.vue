@@ -54,7 +54,7 @@
 
               <li>
                 <!--TO SUBSCRIBE-->
-                <nuxt-link class="nav-link" to="/sign-up"
+                <nuxt-link v-if="!currentUser" class="nav-link" to="/sign-up"
                   >Get started</nuxt-link
                 >
               </li>

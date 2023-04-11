@@ -181,7 +181,7 @@ const googleLogin = async () => {
 const googleSignUp = async () => {
   await signUpWithGoogle();
   if (!error.value) {
-    router.push("/");
+    router.push("/selection");
   }
 };
 
