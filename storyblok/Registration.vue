@@ -294,6 +294,7 @@ const togglePwd = () => {
       .validation_box{
         width:250px;
         color:red;
+        margin:10px 0;
       }
     }
   }

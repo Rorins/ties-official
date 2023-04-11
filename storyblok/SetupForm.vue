@@ -52,7 +52,7 @@ const submit = async () => {
   console.log("email:", email.value);
   await passwordResetEmail(email.value);
   if (!error.value) {
-    router.push("/");
+    alert("Check your mail! We sent you a password reset")
   }
 };
   </script>
