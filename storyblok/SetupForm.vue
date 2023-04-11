@@ -1,6 +1,6 @@
 <template>
     <div class="sign_page bg_colorlight" v-editable="blok">
-     <div class="reset_form bg_colordark">
+     <div v-if="isPasswordForm" class="reset_form bg_colordark">
         <div class="img_container">
             <img :src="blok.img?.filename" :alt="blok.img?.alt" />
         </div>
@@ -22,7 +22,7 @@
           />
      </div>
      <button @click="submit">
-    {{ blok.buttons[0].text }}
+    {{ blok.buttons[0]?.text }}
     </button>
     <h3>
         <a :href=blok.link.cached_url>
@@ -38,7 +38,8 @@ import { useRouter } from "vue-router";
 import useAuth from "~/composables/useAuth";
 import { ref } from "vue";
 
-  defineProps({ blok: Object });
+const props = defineProps({ blok: Object });
+const isPasswordForm = computed(() => props.blok.isVerifyPassword);
 
   //Functions firebase for e-mail
 const { passwordResetEmail, error} =

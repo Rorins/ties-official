@@ -37,11 +37,15 @@
             <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </button>
           </div>
+
+          <div v-if="error" class="validation_box">
+            <span>{{ error}}</span>
+          </div>
           
         </div>
         </div>
         <div class="btn_container">
-          <button @click="registerUser">
+          <button type="submit" @click="registerUser($event)">
             {{ blok.buttons[0].text }}
           </button>
           <button @click="googleSignUp">
@@ -100,8 +104,13 @@
          </h3>
         </div>
       </div>
+
+      <div v-if="error" class="validation_box">
+           <span>{{ error}}</span>
+      </div>
+
         <div class="btn_container">
-          <button @click="submitLogin">
+          <button type="submit" @click="submitLogin">
             {{ blok.buttons[0].text }}
           </button>
           <button @click="googleLogin">
@@ -115,6 +124,7 @@
         </div>
       </aside>
     </div>
+
   </div>
 </template>
 
@@ -138,12 +148,17 @@ const showPassword = ref(false)
 const router = useRouter();
 
 //sign-in sign-up
-const registerUser = async () => {
+const registerUser = async (event) => {
   console.log("email:", email.value, "password:", password.value);
-  await createUser(email.value, password.value);
-  await verifyEmail();
-  if (!error.value) {
-    router.push("/");
+  event.preventDefault();
+  try {
+    await createUser(email.value, password.value);
+    await verifyEmail();
+    if(!error.value){
+      router.push("/selection");
+    }
+  } catch (err) {
+    console.log(err)
   }
 };
 
@@ -170,13 +185,6 @@ const googleSignUp = async () => {
   }
 };
 
-//logout
-// const handleLogout = async () => {
-//   await logoutUser()
-//   if (!error.value) {
-//     router.push('/')
-//   }
-// }
 
 //Password
 const togglePwd = () => {
@@ -195,6 +203,7 @@ const togglePwd = () => {
     display: flex;
     padding: 80px;
     border-radius: 20px;
+    border: 3px solid #ddd3c9;
     //Mediaquery
     @media screen and (max-width: 851px) {
       & {
@@ -276,10 +285,15 @@ const togglePwd = () => {
       input {
         border: 0;
         background:white;
+        width:100%;
         &:focus{
           outline: none;
         }
       }
+      }
+      .validation_box{
+        width:250px;
+        color:red;
       }
     }
   }

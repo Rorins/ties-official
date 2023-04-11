@@ -52,8 +52,19 @@ const passwordResetEmail = async (email) => {
       error.value = null;
       return user;
     } catch (err) {
-      console.log(err.message);
-      error.value = err.message;
+      if (err.code == "auth/invalid-email") {
+        error.value = "invalid email";
+      }
+      else if(err.code == "auth/email-already-in-use") {
+        error.value = "e-mail already in use";
+      }
+      else if(err.code == "auth/weak-password") {
+        error.value = "password should be at least 6 characters long";
+      }
+      else{
+        error.value = "please fill all the required fields";
+      }
+      throw err
     }
   };
   
@@ -64,8 +75,22 @@ const passwordResetEmail = async (email) => {
       error.value = null;
       return user;
     } catch (err) {
-      console.log(err.message);
-      error.value = err.message;
+      if (err.code == "auth/invalid-email") {
+        error.value = "Invalid email";
+      }
+      else if(err.code == "auth/email-already-in-use") {
+        error.value ="e-mail already in use";
+      }
+      else if(err.code == "auth/weak-password") {
+        error.value ="password should be at least 6 characters long";
+      }
+      else if(err.code == "auth/wrong-password") {
+        error.value ="wrong password";
+      }
+      else{
+        error.value ="please fill all the required fields";
+      }
+      throw err
     }
   };
 
@@ -104,8 +129,14 @@ const passwordResetEmail = async (email) => {
       await createUserWithEmailAndPassword(auth, email, uid);
       return user;
     } catch (err) {
-      console.log(err.message);
       error.value = err.message;
+      if(err.code == "auth/email-already-in-use"){
+        alert("your e-mail is already in our database");
+      }
+      else{
+        alert(error.value);
+      }
+      throw err
     }
   };
 

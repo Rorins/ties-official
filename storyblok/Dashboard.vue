@@ -1,31 +1,28 @@
 <template>
     <div v-editable="blok">
-        <div class="private_profile">
+        <div class="private_profile bg_colorlight">
         <div class="profile bg_colordark">
             <div class="img_box">
-                <img src="image" alt="image" />
+                <img :src="blok.img?.filename" :alt="blok.img?.alt" />
             </div>
         <div>
             <h2>
-                Profile nickname
+                {{blok.text}}
             </h2>
         </div>
         </div>
 
         <div class="dashboard bg_colordark">
             <h1>
-                Profile
+                {{blok.headline}}
             </h1>
-            <h2>
-                Why are you here?
-            </h2>
-            <div class="tags">
-                <div class="tag">
-                    <h3>
-                        Depression
-                    </h3>
-                </div>
-            </div>
+            <StoryblokComponent
+            v-for="blok in blok.fields"
+            :key="blok._uid"
+            :blok="blok"
+            />
+            
+            
         </div>
         </div>
     </div>
@@ -38,23 +35,34 @@
 <style scoped lang="scss">
 .private_profile{
     display:flex;
-    justify-content:center;
+    justify-content:space-around;
+    padding:100px;
     .profile{
     border-radius:20px;
     width:300px;
     height:400px;
+    padding:50px;
+    text-align:center;
 
     .img_box{
         width:200px;
         height:200px;
         border-radius:50%;
-        background-color:black;
+        background-color:white;
+        img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            border-radius:inherit;
+        }
     }
 }
 .dashboard{
     width:800px;
     height:800px;
     border-radius:20px;
+    padding:50px;
+    
 }
 }
 </style>
