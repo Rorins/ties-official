@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { doc, setDoc, getDocs} from "firebase/firestore";
+import { doc, setDoc, getDocs, updateDoc} from "firebase/firestore";
 import { db } from "~/plugins/firebase";
 
 // user data to database
@@ -32,11 +32,25 @@ const useDatabase = () => {
         error.value = err.message;
       }
     };
+    
+    //Update data
+    const updateUserData = async (uid, data) => {
+      try {
+        const userRef = doc(db, "users", uid);
+        await updateDoc(userRef, data);
+        console.log("User data updated successfully");
+        error.value = null;
+      } catch (err) {
+        console.log("update user error", err.message);
+        error.value = err.message;
+      }
+    };
   
     return {
       error,
       getUserData,
       addUserData,
+      updateUserData,
     };
   };
   

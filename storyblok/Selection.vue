@@ -13,7 +13,7 @@
                 /> -->
               </div>
           <input 
-          v-model="data.displayName"
+          v-model="userData.nickName"
            type="text" placeholder="nickname" 
            required/>
   
@@ -22,7 +22,7 @@
           <button 
           type="button"
            class="btn btn-outline-light btn btn-dark"
-           @submit.prevent="handleSubmit">
+           @click="handleSubmit($event)">
             Continue
           </button>
   
@@ -35,13 +35,25 @@
   defineProps({ blok: Object });
 
   //store data in database
-  const { getUserData, addUserData, error } = useDatabase()
-  const data = reactive({
-      displayName: '',
-  })
+  const {updateUserData, error } = useDatabase()
+  const { currentUser} = useAuth();
 
-  const handleSubmit = () => {
-      addUserData(data)
+  const userData = {
+      nickName: "",
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+      try{
+        //id
+        const {uid} = currentUser.value;
+          //Update data object to send
+          console.log("updated Data", userData)
+          await updateUserData(uid, userData);
+        console.log("User data updated successfully");
+      }catch(err){
+        console.log(err)
+      }
   }
   </script>
   

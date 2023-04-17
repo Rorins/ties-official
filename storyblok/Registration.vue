@@ -26,7 +26,7 @@
           <div><label for="password">Password</label></div>
           <div class="password_input">
             <input
-            v-model="userData.password"
+            v-model="userPassword"
             :type="showPassword ? 'text' : 'password'"
             name="password"
             id="password"
@@ -86,7 +86,7 @@
           <div><label for="password">Password</label></div>
           <div class="password_input">
             <input
-            v-model="userData.password"
+            v-model="userPassword"
             :type="showPassword ? 'text' : 'password'"
             name="password"
             id="password"
@@ -144,25 +144,26 @@ const { createUser, loginUser, loginWithGoogle, signUpWithGoogle, verifyEmail, c
   useAuth();
 const {addUserData} = useDatabase();
 
-//use data for database
+//user data for authentication
 const userData = {
       email: "",
-      password:"",
       uid : null,
   }
 
+const userPassword = ref("")
 const showPassword = ref(false)
 const router = useRouter();
 
 //sign-in sign-up
 const registerUser = async (event) => {
-  console.log("email:", userData.email, "password:", userData.password);
+  console.log("email:", userData.email, "password:", userPassword.value);
   event.preventDefault();
   try {
-    await createUser( userData.email,  userData.password);
+    await createUser( userData.email,  userPassword.value);
+    //id
     const {uid} = currentUser.value;
     userData.uid = uid;
-    console.log("uid user",userData.uid)
+    //data for backend
     await addUserData(userData.uid , userData);
     await verifyEmail();
     if(!error.value){
@@ -174,8 +175,8 @@ const registerUser = async (event) => {
 };
 
 const submitLogin = async () => {
-  console.log("email:",  userData.email, "password:",  userData.password);
-  await loginUser( userData.email,  userData.password);
+  console.log("email:",  userData.email, "password:",  userPassword.value);
+  await loginUser( userData.email,  userPassword.value);
   if (!error.value) {
     router.push("/dashboard");
   }
