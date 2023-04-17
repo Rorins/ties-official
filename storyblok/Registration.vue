@@ -13,7 +13,7 @@
           <div><label for="email">E-mail</label></div>
           <div class="email_input">
           <input
-            v-model="email"
+            v-model="userData.email"
             type="email"
             name="email"
             id="email"
@@ -26,7 +26,7 @@
           <div><label for="password">Password</label></div>
           <div class="password_input">
             <input
-            v-model="password"
+            v-model="userData.password"
             :type="showPassword ? 'text' : 'password'"
             name="password"
             id="password"
@@ -73,7 +73,7 @@
           <div><label for="email">E-mail</label></div>
         <div class="email_input">
           <input
-            v-model="email"
+            v-model="userData.email"
             type="email"
             name="email"
             id="email"
@@ -86,7 +86,7 @@
           <div><label for="password">Password</label></div>
           <div class="password_input">
             <input
-            v-model="password"
+            v-model="userData.password"
             :type="showPassword ? 'text' : 'password'"
             name="password"
             id="password"
@@ -106,7 +106,7 @@
       </div>
 
       <div v-if="error" class="validation_box">
-           <span>{{ error}}</span>
+           <span>{{error}}</span>
       </div>
 
         <div class="btn_container">
@@ -139,20 +139,31 @@ const undertitle = computed(() => renderRichText(props.blok.undertitle));
 const signUp = computed(() => props.blok.isSignUp);
 const signIn = computed(() => props.blok.isSignIn);
 
-//Functions firebase for authentication
-const { createUser, loginUser, loginWithGoogle, signUpWithGoogle, verifyEmail, error } =
+//Functions firebase for authentication and firebase database
+const { createUser, loginUser, loginWithGoogle, signUpWithGoogle, verifyEmail, currentUser, error } =
   useAuth();
-const email = ref("");
-const password = ref("");
+const {addUserData} = useDatabase();
+
+//use data for database
+const userData = {
+      email: "",
+      password:"",
+      uid : null,
+  }
+
 const showPassword = ref(false)
 const router = useRouter();
 
 //sign-in sign-up
 const registerUser = async (event) => {
-  console.log("email:", email.value, "password:", password.value);
+  console.log("email:", userData.email, "password:", userData.password);
   event.preventDefault();
   try {
-    await createUser(email.value, password.value);
+    await createUser( userData.email,  userData.password);
+    const {uid} = currentUser.value;
+    userData.uid = uid;
+    console.log("uid user",userData.uid)
+    await addUserData(userData.uid , userData);
     await verifyEmail();
     if(!error.value){
       router.push("/selection");
@@ -163,8 +174,8 @@ const registerUser = async (event) => {
 };
 
 const submitLogin = async () => {
-  console.log("email:", email.value, "password:", password.value);
-  await loginUser(email.value, password.value);
+  console.log("email:",  userData.email, "password:",  userData.password);
+  await loginUser( userData.email,  userData.password);
   if (!error.value) {
     router.push("/dashboard");
   }

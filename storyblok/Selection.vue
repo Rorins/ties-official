@@ -12,11 +12,17 @@
                   alt=""
                 /> -->
               </div>
-          <input type="text" placeholder="Nickname" />
+          <input 
+          v-model="data.displayName"
+           type="text" placeholder="nickname" 
+           required/>
   
           <h4>Pick an avatar icon you think suits you better</h4>
           <h5>Click here when you're all set</h5>
-          <button type="button" class="btn btn-outline-light btn btn-dark">
+          <button 
+          type="button"
+           class="btn btn-outline-light btn btn-dark"
+           @submit.prevent="handleSubmit">
             Continue
           </button>
   
@@ -27,6 +33,16 @@
   
   <script setup>
   defineProps({ blok: Object });
+
+  //store data in database
+  const { getUserData, addUserData, error } = useDatabase()
+  const data = reactive({
+      displayName: '',
+  })
+
+  const handleSubmit = () => {
+      addUserData(data)
+  }
   </script>
   
   <style scoped lang='scss'>
