@@ -7,7 +7,7 @@
             </div>
         <div>
             <h2>
-                {{blok.text}}
+                {{ userData ? userData.nickName : 'Loading...' }}
             </h2>
         </div>
         </div>
@@ -30,6 +30,23 @@
   
   <script setup>
   defineProps({ blok: Object });
+  
+  const { currentUser, error } = useAuth();
+  const {getUserData} = useDatabase();
+  const userData = ref(null);
+
+  onMounted(async () => {
+    //id
+    try {
+        const {uid} = currentUser.value;
+        const data = await getUserData(uid);
+        userData.value = data;
+        console.log("returned data",userData.value)
+        }catch (err) {
+        console.log(err.message);
+    }
+  });
+  
   </script>
   
 <style scoped lang="scss">

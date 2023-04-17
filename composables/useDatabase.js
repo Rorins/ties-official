@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { doc, setDoc, getDocs, updateDoc} from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc} from "firebase/firestore";
 import { db } from "~/plugins/firebase";
 
 // user data to database
@@ -7,9 +7,9 @@ const useDatabase = () => {
     const error = ref(null);
   
     // Fetch user data from Firestore
-    const getUserData = async () => {
+    const getUserData = async (uid) => {
       try {
-        const userData = await getDocs(doc(db, "users", uid));
+        const userData = await getDoc(doc(db, "users", uid));
         if (userData.exists) {
           return userData.data();
         } else {

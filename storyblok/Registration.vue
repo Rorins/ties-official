@@ -132,7 +132,7 @@
 import { useRouter } from "vue-router";
 import useAuth from "~/composables/useAuth";
 import { ref } from "vue";
-//icons
+
 
 const props = defineProps({ blok: Object });
 const undertitle = computed(() => renderRichText(props.blok.undertitle));
