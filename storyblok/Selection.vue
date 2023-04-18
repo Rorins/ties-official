@@ -7,17 +7,31 @@
           <h1>{{blok.title}}</h1>
           <h3>{{blok.undertitle}}</h3>
             <div class="selected-avatar center" >
-              <!-- <img
-                  
-                  alt=""
-                /> -->
+              <img
+                  :src="currentUrl"
+                  alt="avatar"
+                />
               </div>
           <input 
           v-model="userData.nickName"
            type="text" placeholder="nickname" 
            required/>
   
-          <h4>Pick an avatar icon you think suits you better</h4>
+          <h4>Scroll our avatars and pick an icon you think suits you better</h4>
+
+          <div class="swiper-container" ref="swiper">
+          <Swiper v-bind="swiperOptions">
+            <SwiperSlide 
+             v-for="(blok, index) in blok.avatars"
+            >
+            <StoryblokComponent
+            :key="blok._uid"
+            :blok="blok"
+            @click="setAvatar(blok.img?.filename)" />
+            </SwiperSlide>
+          </Swiper>
+        </div>
+
           <h5>Click here when you're all set</h5>
           <button 
           type="button"
@@ -32,15 +46,34 @@
   </template>
   
   <script setup>
-  defineProps({ blok: Object });
+  import { Swiper, SwiperSlide} from 'swiper/vue';
+  import 'swiper/css';
+  const props = defineProps({ blok: Object });
+
+  //CAROUSEL SETTINGS
+    
+  const swiperOptions = {
+  pagination: false,
+  slidesPerView: 4,
+  spaceBetween: 20,
+  loop: true,
+  focusOnSelect: true,
+  speed: 500,
+};
+
+
+  const currentUrl = ref(props.blok.img?.filename);
+  const setAvatar = (avatarUrl) => {
+  currentUrl.value = avatarUrl;
+  }
 
   //store data in database
   const {updateUserData, error } = useDatabase()
   const { currentUser} = useAuth();
-
   const userData = {
       nickName: "",
   }
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -85,6 +118,19 @@
     border-radius: 50%;
     background-color: white;
     margin: 20px auto;
+    img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      border-radius:inherit;
+    }
+  }
+
+  .swiper-slide{
+    img {
+    width: 100%;
+    height: 100%;
+  }
   }
  
   </style>

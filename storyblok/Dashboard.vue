@@ -14,7 +14,7 @@
 
         <div class="dashboard bg_colordark">
             <h1>
-                {{blok.headline}}
+                Hello, {{ userData ? userData.nickName : 'Loading...'  }}. This is your dashboard.
             </h1>
             <StoryblokComponent
             v-for="blok in blok.fields"
@@ -42,7 +42,8 @@
         const data = await getUserData(uid);
         userData.value = data;
         console.log("returned data",userData.value)
-        }catch (err) {
+        }
+    catch (err) {
         console.log(err.message);
     }
   });
