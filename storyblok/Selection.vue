@@ -8,12 +8,12 @@
           <h3>{{blok.undertitle}}</h3>
             <div class="selected-avatar center" >
               <img
-                  :src="currentUrl"
+                  :src="currentImg"
                   alt="avatar"
                 />
               </div>
           <input 
-          v-model="userData.nickName"
+           v-model="userData.nickName"
            type="text" placeholder="nickname" 
            required/>
   
@@ -48,23 +48,49 @@
   <script setup>
   import { Swiper, SwiperSlide} from 'swiper/vue';
   import 'swiper/css';
+  import { useRouter } from "vue-router";
   const props = defineProps({ blok: Object });
 
   //CAROUSEL SETTINGS
     
   const swiperOptions = {
+    breakpoints: {       
+      1372: {       
+         slidesPerView: 5,
+         spaceBetween: 10     
+      },          
+      1090: {       
+         slidesPerView: 4,       
+         spaceBetween: 50     
+      },
+      800: {       
+         slidesPerView: 3,       
+         spaceBetween: 20    
+      },
+      604: {       
+         slidesPerView: 2,       
+         spaceBetween: 10    
+      },
+      200: {       
+         slidesPerView: 1,       
+         spaceBetween: 10    
+      }
+    },
   pagination: false,
-  slidesPerView: 4,
-  spaceBetween: 20,
+  centeredSlides: true,
+  slidesPerView: 5,
+  spaceBetween: 10,
   loop: true,
   focusOnSelect: true,
   speed: 500,
 };
 
-
-  const currentUrl = ref(props.blok.img?.filename);
+  const router = useRouter();
+  const currentImg = ref(props.blok.img?.filename);
   const setAvatar = (avatarUrl) => {
-  currentUrl.value = avatarUrl;
+  currentImg.value = avatarUrl;
+  userData.currentImgUrl = avatarUrl;
+  console.log(userData.currentImgUrl)
   }
 
   //store data in database
@@ -72,6 +98,7 @@
   const { currentUser} = useAuth();
   const userData = {
       nickName: "",
+      currentImgUrl: null,
   }
 
 
@@ -84,6 +111,9 @@
           console.log("updated Data", userData)
           await updateUserData(uid, userData);
         console.log("User data updated successfully");
+        if(!error.value){
+        router.push("/dashboard");
+       }
       }catch(err){
         console.log(err)
       }
@@ -125,12 +155,10 @@
       border-radius:inherit;
     }
   }
+  
+  .swiper-container{
+    margin:20px 0;
+  }
 
-  .swiper-slide{
-    img {
-    width: 100%;
-    height: 100%;
-  }
-  }
  
   </style>

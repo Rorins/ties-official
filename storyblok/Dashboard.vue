@@ -3,7 +3,7 @@
         <div class="private_profile bg_colorlight">
         <div class="profile bg_colordark">
             <div class="img_box">
-                <img :src="blok.img?.filename" :alt="blok.img?.alt" />
+                <img :src="userData ? userData.currentImgUrl : blok.img?.filename" :alt="blok.img?.alt" />
             </div>
         <div>
             <h2>

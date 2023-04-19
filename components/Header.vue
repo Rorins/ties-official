@@ -27,19 +27,22 @@
             <ul class="navbar-nav">
 
                <!-- Profile -->
-              <li @click="toggleAccountMenu" v-if="currentUser" class="user">
-                <img src="~/assets/fox.png" alt="Fox" />
+              <li @click="toggleAccountMenu" v-if="currentUser" class="account nav-item active">
+                  <button class="btn">
+                  Account
+                </button>
               </li>
+
 
                 <!-- Account menu -->
                 <div v-if="showAccountMenu && currentUser" class="account_menu">
                 <nuxt-link to="/dashboard">
-                  <button>
-                  Account
+                  <button class="btn">
+                  Dashboard
                 </button>
                 </nuxt-link>
 
-                <button @click="handleLogout">
+                <button class="btn" @click="handleLogout">
                   Sign-out
                 </button>
               </div>
@@ -123,6 +126,15 @@ const handleLogout = async () => {
   img {
     height: 50px;
   }
+  .btn{
+      color:white;
+      background-color:black;
+      border-radius:20px;
+      &:hover{
+        color:black;
+        background-color:white;
+      }
+    }
   .user {
     background-color: white;
     width: 50px;
@@ -158,15 +170,12 @@ const handleLogout = async () => {
     a, button{
       margin:5px 0;
     }
-    button{
-      color:white;
-      background-color:black;
-      border-radius:20px;
-      padding:10px;
-      &:hover{
-        color:black;
-        background-color:white;
-      }
+  }
+  .account{
+    @media screen and (max-width: 991px) {
+    &{
+      display:none;
+    }
     }
   }
   .profile{
