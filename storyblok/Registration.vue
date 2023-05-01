@@ -192,6 +192,10 @@ const googleLogin = async () => {
 
 const googleSignUp = async () => {
   await signUpWithGoogle();
+  const {uid} = currentUser.value;
+  userData.uid = uid;
+  //data for backend
+  await addUserData(userData.uid , userData);
   if (!error.value) {
     router.push("/selection");
   }

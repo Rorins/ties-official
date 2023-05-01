@@ -16,6 +16,10 @@
            v-model="userData.nickName"
            type="text" placeholder="nickname" 
            required/>
+
+           <div v-if="validationPrompt" class="validation_box">
+           <span>Please insert a nickname</span>
+          </div>
   
           <h4>Scroll our avatars and pick an icon you think suits you better</h4>
 
@@ -96,6 +100,7 @@
   //store data in database
   const {updateUserData, error } = useDatabase()
   const { currentUser} = useAuth();
+  const validationPrompt = ref(false);
   const userData = {
       nickName: "",
       currentImgUrl: null,
@@ -104,6 +109,10 @@
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!userData.nickName) {
+    validationPrompt.value = true
+    return
+   }
       try{
         //id
         const {uid} = currentUser.value;
@@ -138,6 +147,9 @@
     background:white;
     padding:10px;
     border-radius: 10px;
+ }
+ .validation_box span{
+  color:red;
  }
   
   /*AVATAR AND CAROUSEL*/
