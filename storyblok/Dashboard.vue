@@ -24,7 +24,8 @@
         </div>
         
 
-        <div class="chat_box  bg_colordark">
+        <div class="chat_box  bg_colordark" @click="openChat">
+        <div v-if="!chat">
             <div class="img_box">
                 <img :src="blok.box?.filename" :alt="blok.box?.alt" />
             </div>
@@ -35,9 +36,18 @@
            </h3>
             </div>
         </div>
+
+        <!-- Chat -->
+        <div class="chat" v-else>
+        Be patient and the first free listener will join the chat.
+        </div>
+        </div>
+ 
       </div>
 
+
         <div class="dashboard bg_colordark col-8">
+        <div v-if="!chat">
             <h1>
                 Hello, {{ userData ? userData.nickName : 'Loading...'  }}. This is your dashboard.
             </h1>
@@ -63,10 +73,14 @@
                 </label>
             </h3>
             <textarea id="triggers" name="triggers" placeholder="We will avoid any discussion of religion and politics by default" required></textarea>
-            </div>
-
-            
+            </div>  
         </div>
+        
+         <!-- Chat -->
+        <div class="chat col-8" v-else>
+        chat
+        </div>
+    </div>
         </div>
     </div>
         </div>
@@ -79,6 +93,7 @@
   const { currentUser, error } = useAuth();
   const {getUserData} = useDatabase();
   const userData = ref(null);
+  const chat = ref(false)
 
   onMounted(async () => {
     //id
@@ -92,6 +107,11 @@
         console.log(err.message);
     }
   });
+
+const openChat = () => {
+    chat.value = true
+    console.log(chat.value)
+}
   
   </script>
   
