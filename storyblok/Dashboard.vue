@@ -106,6 +106,7 @@
     height:fit-content;
     padding:50px;
     text-align:center;
+    border: 3px solid #ddd3c9;
 
     .user_img_box{
         width:200px;
@@ -128,6 +129,7 @@
     text-align:center;
     margin-top:20px;
     cursor:pointer;
+    border: 3px solid #ddd3c9;
     .img_box{
         width:200px;
         height:200px;
@@ -146,6 +148,7 @@
     height:fit-content;
     border-radius:20px;
     padding:50px;
+    border: 3px solid #ddd3c9;
     .input-section{
         margin:50px 0;
         h3{
