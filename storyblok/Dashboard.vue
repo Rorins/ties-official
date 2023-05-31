@@ -20,7 +20,7 @@
             </div>
 
             <!-- Chat Box -->
-            <div class="chat_box bg_colordark" @click="openChat">
+            <div class="chat_box bg_colordark">
               <div class="img_box">
                 <img :src="blok.box?.filename" :alt="blok.box?.alt" />
               </div>
@@ -29,7 +29,9 @@
               </div>
               <!-- Chat -->
               <div class="chat">
-                Be patient and the first free listener will join the chat.
+                <button class="btn-outline-light btn btn-dark"  @click="openChat">
+                    Join chat
+                </button>
               </div>
             </div>
           </div>
@@ -174,6 +176,7 @@ const updateInfo = () => {
     h3{
         font-size:25px;
     }
+   
 }
 .dashboard{
     height:fit-content;
