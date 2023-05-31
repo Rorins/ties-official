@@ -1,155 +1,128 @@
 <template>
-    <div v-editable="blok">
-        <div class="container-fluid bg_colorlight">
-
-        <div class="private_profile">
+     <div v-editable="blok">
+    <div class="container-fluid bg_colorlight">
+      <div class="private_profile">
         <div class="row">
-        <div class="profile col-4">
-        <div class="avatar_box bg_colordark">
-            <div class="user_img_box">
+          <div class="profile col-4">
+            <!-- Avatar Box -->
+            <div class="avatar_box bg_colordark">
+              <div class="user_img_box">
                 <img :src="userData ? userData.currentImgUrl : blok.img?.filename" :alt="blok.img?.alt" />
-            </div>
-        <div>
-            <h2>
-                {{ userData ? userData.nickName : 'Loading...' }}
-            </h2>
-            <div class="btn_box">
-                <button @click="updateInfo" class=" btn-outline-light btn btn-dark">
+              </div>
+              <div>
+                <h2>{{ userData ? userData.nickName : 'Loading...' }}</h2>
+                <div class="btn_box">
+                  <button @click="updateInfo" class="btn-outline-light btn btn-dark">
                     Change your info
-                </button>
+                  </button>
+                </div>
+              </div>
             </div>
 
-        </div>
-
-        </div>
-        
-
-        <div class="chat_box  bg_colordark" @click="openChat">
-        <div>
-            <div class="img_box">
+            <!-- Chat Box -->
+            <div class="chat_box bg_colordark" @click="openChat">
+              <div class="img_box">
                 <img :src="blok.box?.filename" :alt="blok.box?.alt" />
+              </div>
+              <div>
+                <h3>When you are ready, join the chat!</h3>
+              </div>
+              <!-- Chat -->
+              <div class="chat">
+                Be patient and the first free listener will join the chat.
+              </div>
             </div>
+          </div>
 
+          <div class="dashboard bg_colordark col-8">
             <div>
-           <h3>
-            When you are ready join the chat!
-           </h3>
-            </div>
-        </div>
+              <h1>Hello, {{ userData ? userData.nickName : 'Loading...' }}. This is your dashboard.</h1>
 
-        <!-- Chat -->
-        <div class="chat">
-        Be patient and the first free listener will join the chat.
+              <!-- Input Sections or User's Information -->
+              <section v-if="userData && (showInputSection || (!userData.about && !userData.triggers))">
+                <div class="input-section">
+                  <h2>Tell us what brought you here.</h2>
+                  <h3>
+                    <label for="about-you">This will help listeners understand the best way to help.</label>
+                  </h3>
+                  <textarea v-model="dataToSend.about" id="about" name="about" placeholder="Remember! Do not share any personal info that can help in identifying you: city, address, real name etc" required></textarea>
+                </div>
+
+                <div class="input-section">
+                  <h2>Tell us anything that may be triggering to you.</h2>
+                  <h3>
+                    <label for="triggers">Listeners will avoid these subjects.</label>
+                  </h3>
+                  <textarea v-model="dataToSend.triggers" id="triggers" name="triggers" placeholder="We will avoid any discussion of religion and politics by default" required></textarea>
+                </div>
+
+                <div class="submit-section">
+                  <button class="btn btn-primary" @click="submitData">Submit</button>
+                </div>
+              </section>
+
+              <!-- User's Information -->
+              <div v-else-if="userData">
+                <h2>About you</h2>
+                <p>{{ userData.about }}</p>
+                <h2>Your triggers</h2>
+                <p>{{ userData.triggers }}</p>
+              </div>
+
+              <!-- Loading message -->
+              <div v-else>
+                <p>Loading...</p>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
- 
       </div>
-
-
-        <div class="dashboard bg_colordark col-8">
-        <div>
-            <h1>
-                Hello, {{ userData ? userData.nickName : 'Loading...'  }}. This is your dashboard.
-            </h1>
-
-            <section v-if="userData && !userData.about && !userData.triggers || showInputSection">
-            <div class="input-section">
-            <h2>
-                Tell us what brought you here.
-            </h2>
-            <h3>
-                <label for="about-you">
-                This will help listeners understand the best way to help.
-                </label>
-            </h3>
-            <textarea  v-model="dataToSend.about" id="about" name="about" placeholder="Remember! Do not share any personal info that can help in identifying you: city, address, real name etc" required></textarea>
-            </div>
-
-            <div class="input-section">
-            <h2>
-                Tell us anything that may be triggering to you.
-            </h2>
-            <h3>
-                <label for="triggers">
-                Listeners will avoid these subjects.
-                </label>
-            </h3>
-            <textarea  v-model="dataToSend.triggers" id="triggers" name="triggers" placeholder="We will avoid any discussion of religion and politics by default" required></textarea>
-            </div>  
-
-            <div class="submit-section">
-                <button class="btn btn-primary" @click="submitData">Submit</button>
-            </div>
-          </section>
-
-
-            <!--Form update-->
-            <div v-if="(!showInputSection || userData && userData.about && userData.triggers)">
-            <h2>About you</h2>
-            <p>
-                {{ userData.about}}
-            </p>
-            <h2>Your triggers</h2>
-            <p>
-                {{ userData.triggers }}
-            </p>
-            </div>
-
-             </div>
-
     </div>
-        </div>
-    </div>
-        </div>
-    </div>
+  </div>
   </template>
   
   <script setup>
+  import { ref, onMounted } from 'vue';
   defineProps({ blok: Object });
-  
+
   const { currentUser, error } = useAuth();
-  const {getUserData, updateUserData} = useDatabase();
-  const userData = ref(null);
-  const chat = ref(false)
-  const showInputSection = ref(false); 
-  //user data to send to Database
-  const dataToSend = {
-      about: null,
-      triggers: null,
-  }
+const { getUserData, updateUserData } = useDatabase();
+const userData = ref(null);
+const showInputSection = ref(false);
+const dataToSend = {
+  about: null,
+  triggers: null,
+};
 
-  onMounted(async () => {
-    //id
-    try {
-        const {uid} = currentUser.value;
-        const data = await getUserData(uid);
-        userData.value = data;
-        console.log("returned data",userData.value)
-        }
-    catch (err) {
-        console.log(err.message);
-    }
-  });
-
-  const submitData = async () =>{
-    try{
-        const {uid} = currentUser.value;
-        await updateUserData(uid,dataToSend);
-    }
-    catch (err){
-        console.log(err.message)
-    }
+onMounted(async () => {
+  try {
+    const { uid } = currentUser.value;
+    const data = await getUserData(uid);
+    userData.value = data;
+    showInputSection.value = !data.about && !data.triggers; // showInput trigger only if the two fields are empty, false
+  } catch (err) {
+    console.log(err.message);
   }
+});
+
+const submitData = async () => {
+  try {
+    const { uid } = currentUser.value;
+    await updateUserData(uid, dataToSend);
+    userData.value.about = dataToSend.about; 
+    userData.value.triggers = dataToSend.triggers;
+    showInputSection.value = false; 
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 const openChat = () => {
-    chat.value = true
-    console.log(chat.value)
-}
+};
 
 const updateInfo = () => {
-    showInputSection.value = true; 
-    console.log(showInputSection.value)
-  };
+  showInputSection.value = true;
+};
   
   </script>
   

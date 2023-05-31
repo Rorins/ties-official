@@ -42,8 +42,8 @@ const useDatabase = () => {
         if (userData.exists()) {
           const existingData = userData.data();
           const mergedData = {
-            ...existingData, // Copy existing properties
-            ...newData, // Add or modify properties
+            ...existingData, 
+            ...newData, 
           };
           
           await setDoc(userRef, mergedData);
