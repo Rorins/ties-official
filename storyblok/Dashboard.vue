@@ -14,7 +14,7 @@
                 {{ userData ? userData.nickName : 'Loading...' }}
             </h2>
             <div class="btn_box">
-                <button class=" btn-outline-light btn btn-dark">
+                <button @click="updateInfo" class=" btn-outline-light btn btn-dark">
                     Change your info
                 </button>
             </div>
@@ -25,7 +25,7 @@
         
 
         <div class="chat_box  bg_colordark" @click="openChat">
-        <div v-if="!chat">
+        <div>
             <div class="img_box">
                 <img :src="blok.box?.filename" :alt="blok.box?.alt" />
             </div>
@@ -38,7 +38,7 @@
         </div>
 
         <!-- Chat -->
-        <div class="chat" v-else>
+        <div class="chat">
         Be patient and the first free listener will join the chat.
         </div>
         </div>
@@ -47,10 +47,12 @@
 
 
         <div class="dashboard bg_colordark col-8">
-        <div v-if="!chat">
+        <div>
             <h1>
                 Hello, {{ userData ? userData.nickName : 'Loading...'  }}. This is your dashboard.
             </h1>
+
+            <section v-if="userData && !userData.about && !userData.triggers || showInputSection">
             <div class="input-section">
             <h2>
                 Tell us what brought you here.
@@ -60,7 +62,7 @@
                 This will help listeners understand the best way to help.
                 </label>
             </h3>
-            <textarea id="about-you" name="about-you" placeholder="Remember! Do not share any personal info that can help in identifying you: city, address, real name etc" required></textarea>
+            <textarea  v-model="dataToSend.about" id="about" name="about" placeholder="Remember! Do not share any personal info that can help in identifying you: city, address, real name etc" required></textarea>
             </div>
 
             <div class="input-section">
@@ -72,14 +74,29 @@
                 Listeners will avoid these subjects.
                 </label>
             </h3>
-            <textarea id="triggers" name="triggers" placeholder="We will avoid any discussion of religion and politics by default" required></textarea>
+            <textarea  v-model="dataToSend.triggers" id="triggers" name="triggers" placeholder="We will avoid any discussion of religion and politics by default" required></textarea>
             </div>  
-        </div>
-        
-         <!-- Chat -->
-        <div class="chat col-8" v-else>
-        chat
-        </div>
+
+            <div class="submit-section">
+                <button class="btn btn-primary" @click="submitData">Submit</button>
+            </div>
+          </section>
+
+
+            <!--Form update-->
+            <div v-if="(!showInputSection || userData && userData.about && userData.triggers)">
+            <h2>About you</h2>
+            <p>
+                {{ userData.about}}
+            </p>
+            <h2>Your triggers</h2>
+            <p>
+                {{ userData.triggers }}
+            </p>
+            </div>
+
+             </div>
+
     </div>
         </div>
     </div>
@@ -91,9 +108,15 @@
   defineProps({ blok: Object });
   
   const { currentUser, error } = useAuth();
-  const {getUserData} = useDatabase();
+  const {getUserData, updateUserData} = useDatabase();
   const userData = ref(null);
   const chat = ref(false)
+  const showInputSection = ref(false); 
+  //user data to send to Database
+  const dataToSend = {
+      about: null,
+      triggers: null,
+  }
 
   onMounted(async () => {
     //id
@@ -108,10 +131,25 @@
     }
   });
 
+  const submitData = async () =>{
+    try{
+        const {uid} = currentUser.value;
+        await updateUserData(uid,dataToSend);
+    }
+    catch (err){
+        console.log(err.message)
+    }
+  }
+
 const openChat = () => {
     chat.value = true
     console.log(chat.value)
 }
+
+const updateInfo = () => {
+    showInputSection.value = true; 
+    console.log(showInputSection.value)
+  };
   
   </script>
   

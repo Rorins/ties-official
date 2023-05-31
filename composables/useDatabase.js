@@ -34,17 +34,56 @@ const useDatabase = () => {
     };
     
     //Update data
-    const updateUserData = async (uid, data) => {
+    const updateUserData = async (uid, newData) => {
       try {
         const userRef = doc(db, "users", uid);
-        await updateDoc(userRef, data);
-        console.log("User data updated successfully");
-        error.value = null;
+        const userData = await getDoc(userRef);
+        
+        if (userData.exists()) {
+          const existingData = userData.data();
+          const mergedData = {
+            ...existingData, // Copy existing properties
+            ...newData, // Add or modify properties
+          };
+          
+          await setDoc(userRef, mergedData);
+          console.log("User data updated successfully");
+          error.value = null;
+        } else {
+          console.log("User data not found");
+        }
       } catch (err) {
-        console.log("update user error", err.message);
+        console.log("Update user error", err.message);
         error.value = err.message;
       }
     };
+
+   
+    //Chat system
+    const sendMessage = async (chatId, userId, messageText) => {
+      try {
+        await setDoc(doc(db, "users", uid), data);
+        const chatRef = doc(db, "chat", chatId);
+        const chatDoc = await getDoc(chatRef);
+        if (chatDoc.exists()) {
+          const chatData = chatDoc.data();
+          const newMessage = {
+            id: Date.now().toString(),
+            user: userId,
+            timestamp: new Date().toISOString(),
+            text: messageText,
+          };
+          chatData.messages.push(newMessage);
+          await updateDoc(chatRef, { messages: chatData.messages });
+          console.log("New message sent in chat room ", chatId);
+        } else {
+          console.error("Chat room not found!");
+        }
+      } catch (error) {
+        console.error("Error sending message: ", error);
+      }
+    };
+    
   
     return {
       error,
