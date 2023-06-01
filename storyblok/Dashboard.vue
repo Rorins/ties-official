@@ -3,7 +3,7 @@
     <div class="container-fluid bg_colorlight">
       <div class="private_profile">
         <div class="row">
-          <div class="profile col-4">
+          <div class="profile col-12 col-lg-4">
             <!-- Avatar Box -->
             <div class="avatar_box bg_colordark">
               <div class="user_img_box">
@@ -36,7 +36,7 @@
             </div>
           </div>
 
-          <div class="dashboard bg_colordark col-8">
+          <div class="dashboard bg_colordark col-12 col-lg-8">
             <div>
               <h1>Hello, {{ userData ? userData.nickName : 'Loading...' }}. This is your dashboard.</h1>
 
@@ -59,16 +59,20 @@
                 </div>
 
                 <div class="submit-section">
-                  <button class="btn btn-primary" @click="submitData">Submit</button>
+                  <button  class="btn-outline-light btn btn-dark" @click="submitData">Submit</button>
                 </div>
               </section>
 
               <!-- User's Information -->
-              <div v-else-if="userData">
-                <h2>About you</h2>
+              <div className="updated_info" v-else-if="userData">
+                <div className="updated_section">
+                  <h2>About you</h2>
                 <p>{{ userData.about }}</p>
-                <h2>Your triggers</h2>
+                </div>
+                <div className="updated_section">
+                  <h2>Your triggers</h2>
                 <p>{{ userData.triggers }}</p>
+                </div>
               </div>
 
               <!-- Loading message -->
@@ -133,6 +137,18 @@ const updateInfo = () => {
     display:flex;
     justify-content: center;
     padding:100px 0;
+    .profile{
+      @media screen and (max-width: 991px)  {
+        display:flex;
+        justify-content: space-around;
+        div{
+          margin:0 auto,
+        }
+      }
+      @media screen and (max-width: 678px)  {
+       display:block;
+      }
+    }
     .avatar_box{
     border-radius:20px;
     width:300px;
@@ -183,6 +199,9 @@ const updateInfo = () => {
     border-radius:20px;
     padding:50px;
     border: 3px solid #ddd3c9;
+    @media screen and (max-width: 991px){
+      margin-top:50px;
+    }
     .input-section{
         margin:50px 0;
         h3{
@@ -195,7 +214,12 @@ const updateInfo = () => {
         height:200px;
     }
     }
-    
+    .updated_info{
+      margin:50px 0;
+      .updated_section{
+        margin:50px 0;
+      }
+    }
 }
 }
 </style>
