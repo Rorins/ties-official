@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { doc, setDoc, getDoc, updateDoc} from "firebase/firestore";
+import { doc, setDoc, getDoc, addDoc, updateDoc, collection} from "firebase/firestore";
 import { db } from "~/plugins/firebase";
 
 // user data to database
@@ -20,6 +20,19 @@ const useDatabase = () => {
         error.value = err.message;
       }
     };
+
+    // Chat system
+  const createChat = async (currentUserId, router) => {
+    try {
+      const chatCollectionRef = collection(db, 'chat');
+      const docRef = await addDoc(chatCollectionRef, { userId: currentUserId });
+      const chatId = docRef.id;
+      // Pushing to a random chat room
+      router.push(`/chat/${chatId}`);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   
     // Add new data to Firestore
     const addUserData = async (uid,data) => {
@@ -90,6 +103,7 @@ const useDatabase = () => {
       getUserData,
       addUserData,
       updateUserData,
+      createChat,
     };
   };
   

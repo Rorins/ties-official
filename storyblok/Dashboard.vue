@@ -89,12 +89,14 @@
   
   <script setup>
   import { ref, onMounted } from 'vue';
+  import { useRouter } from "vue-router";
   defineProps({ blok: Object });
 
-  const { currentUser, error } = useAuth();
-const { getUserData, updateUserData } = useDatabase();
+const { currentUser, error } = useAuth();
+const { getUserData, updateUserData, createChat} = useDatabase();
 const userData = ref(null);
 const showInputSection = ref(false);
+const router = useRouter();
 const dataToSend = {
   about: null,
   triggers: null,
@@ -123,7 +125,13 @@ const submitData = async () => {
   }
 };
 
-const openChat = () => {
+const openChat = async () => {
+  try {
+      const { uid } = currentUser.value;
+      await createChat(uid, router);
+    } catch (err) {
+      console.log(err.message);
+    }
 };
 
 const updateInfo = () => {
@@ -177,7 +185,6 @@ const updateInfo = () => {
     padding:50px;
     text-align:center;
     margin-top:20px;
-    cursor:pointer;
     border: 3px solid #ddd3c9;
     .img_box{
         width:200px;
