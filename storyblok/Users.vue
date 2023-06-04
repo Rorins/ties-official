@@ -1,6 +1,10 @@
 <template>
   <section v-editable="blok" class="users bg_colordark">
     <div class="container">
+      <div class="contact text-center">
+      <h2 >Want to be a listener?</h2>
+      <p class="btn-outline-light btn btn-dark">Contact us and we will set you up!</p>
+    </div>
       <div class="row">
         <ListenerCard
           v-for="user in blok.users"
@@ -20,4 +24,8 @@
 defineProps({ blok: Object });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.contact{
+  padding-top:50px;
+}
+</style>
