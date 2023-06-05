@@ -21,6 +21,26 @@
 
             <!-- Chat Box -->
             <div class="chat_box bg_colordark">
+             <!--For regular user--> 
+              <div v-if="userData && userData.userType === 'listener'" class="chat_box_content">
+                <h3>
+                  These are all your incoming chats
+                </h3>
+
+                <div class="chat_list">
+                  <div @click="pushToChat(chat.chatId)" class="single_chat"
+                  v-for="chat in uniqueChatList">
+                  <h4>
+                    Chat with {{ chat.userName }}
+                  </h4>
+                </div>
+
+                </div>
+              </div>
+              
+              <!--For listener-->
+              <div
+              v-else>
               <div class="img_box">
                 <img :src="blok.box?.filename" :alt="blok.box?.alt" />
               </div>
@@ -32,6 +52,8 @@
                 <button class="btn-outline-light btn btn-dark"  @click="openChat">
                     Join chat
                 </button>
+              </div>
+              
               </div>
             </div>
           </div>
@@ -104,7 +126,7 @@
   defineProps({ blok: Object });
 
 const { currentUser, error } = useAuth();
-const { getUserData, updateUserData, createChat} = useDatabase();
+const { getUserData, updateUserData, createChat, getChatDocuments} = useDatabase();
 const userData = ref(null);
 const showInputSection = ref(false);
 const router = useRouter();
@@ -112,6 +134,7 @@ const dataToSend = {
   about: null,
   triggers: null,
 };
+const chatList = ref([]);
 
 onMounted(async () => {
   try {
@@ -139,7 +162,7 @@ const submitData = async () => {
 const openChat = async () => {
   try {
       const { uid } = currentUser.value;
-      await createChat(uid, router);
+      await createChat(uid, userData.value.nickName, router);
     } catch (err) {
       console.log(err.message);
     }
@@ -149,12 +172,36 @@ const updateInfo = () => {
   showInputSection.value = true;
 };
 
+const pushToChat = (chatId) => {
+  router.push(`/chat/${chatId}`);
+};
+
+onMounted(async () => {
+  try {
+    chatList.value = await getChatDocuments();
+    console.log(chatList.value)
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 const placeholderText = computed(() => {
   if (userData.value && userData.value.userType === 'listener') {
     return "Keep the quote short and appropriate";
   } else {
     return "We will avoid any discussion of religion and politics by default";
   }
+});
+
+const uniqueChatList = computed(() => {
+  const displayedChatIds = [];
+  return chatList.value.filter((chat) => {
+    if (!displayedChatIds.includes(chat.chatId)) {
+      displayedChatIds.push(chat.chatId);
+      return true;
+    }
+    return false;
+  });
 });
 
   
@@ -206,6 +253,16 @@ const placeholderText = computed(() => {
     text-align:center;
     margin-top:20px;
     border: 3px solid #ddd3c9;
+    .chat_list{
+      max-height:300px;
+      overflow-y:auto;
+      .single_chat h4{
+        background-color: #beab97;
+        border-radius:50px;
+        margin-bottom:10px;
+        cursor:pointer;
+      }
+    }
     .img_box{
         width:200px;
         height:200px;

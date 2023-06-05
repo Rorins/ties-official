@@ -2,7 +2,7 @@
   <section v-editable="blok" class="users bg_colordark">
     <div class="container">
       <div class="contact text-center">
-      <h2 >Want to be a listener?</h2>
+      <h2 >Want to become a listener?</h2>
       <p class="btn-outline-light btn btn-dark">Contact us and we will set you up!</p>
     </div>
       <div class="row">

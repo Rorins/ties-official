@@ -23,11 +23,12 @@ const useDatabase = () => {
 
 
     // Chat system
-  const createChat = async (currentUserId, router) => {
+  const createChat = async (currentUserId, userName, router) => {
     try {
       const chatCollectionRef = collection(db, 'chat');
-      const docRef = await addDoc(chatCollectionRef, { userId: currentUserId });
+      const docRef = await addDoc(chatCollectionRef, { chatId: null, userId: currentUserId, userName: userName });
       const chatId = docRef.id;
+      await updateDoc(docRef, { chatId });
       // Pushing to a random chat room
       router.push(`/chat/${chatId}`);
     } catch (err) {
@@ -72,6 +73,19 @@ const useDatabase = () => {
         error.value = err.message;
       }
     };
+
+    
+  // get all document inside chat
+  const getChatDocuments= async () => {
+    try {
+      const chatCollectionRef = collection(db, 'chat');
+      const querySnapshot = await getDocs(chatCollectionRef);
+      const chatDocuments = querySnapshot.docs.map((doc) => doc.data());
+      return chatDocuments;
+    } catch (error) {
+      console.log(error.message , "returned chats");
+    }
+  }
 
   // all documents by type
   const getUsersByUserType = async () => {
@@ -125,6 +139,7 @@ const useDatabase = () => {
       updateUserData,
       createChat,
       getUsersByUserType,
+      getChatDocuments,
     };
   };
   
