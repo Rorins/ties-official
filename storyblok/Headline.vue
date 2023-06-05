@@ -14,5 +14,8 @@ defineProps({ blok: Object });
   margin-top: 70px;
   text-align: center;
   padding: 60px;
+  h2{
+    font-weight:200;
+  }
 }
 </style>

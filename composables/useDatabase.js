@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { doc, setDoc, getDoc, addDoc, updateDoc, collection} from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs, addDoc, updateDoc, collection, query, where} from "firebase/firestore";
 import { db } from "~/plugins/firebase";
 
 // user data to database
@@ -20,6 +20,7 @@ const useDatabase = () => {
         error.value = err.message;
       }
     };
+
 
     // Chat system
   const createChat = async (currentUserId, router) => {
@@ -45,6 +46,7 @@ const useDatabase = () => {
         error.value = err.message;
       }
     };
+
     
     //Update data
     const updateUserData = async (uid, newData) => {
@@ -71,6 +73,24 @@ const useDatabase = () => {
       }
     };
 
+  // all documents by type
+  const getUsersByUserType = async () => {
+    try {
+      const usersCollectionRef = collection(db, "users");
+      const q = query(usersCollectionRef, where("userType", "==", "listener"));
+      const querySnapshot = await getDocs(q);
+      
+      const users = [];
+      querySnapshot.forEach((doc) => {
+        users.push(doc.data());
+      });
+      
+      return users;
+    } catch (err) {
+      console.log(err.message, "error for listeners");
+      error.value = err.message;
+    }
+  };
    
     //Chat system
     const sendMessage = async (chatId, userId, messageText) => {
@@ -104,6 +124,7 @@ const useDatabase = () => {
       addUserData,
       updateUserData,
       createChat,
+      getUsersByUserType,
     };
   };
   

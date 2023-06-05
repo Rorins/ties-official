@@ -43,19 +43,29 @@
               <!-- Input Sections or User's Information -->
               <section v-if="userData && (showInputSection || (!userData.about && !userData.triggers))">
                 <div class="input-section">
-                  <h2>Tell us what brought you here.</h2>
-                  <h3>
+
+                  <h2 v-if="userData && userData.userType === 'listener'">Create a presentation for other users.</h2>
+                  <h2 v-else>Tell us what brought you here.</h2>
+                  <h3 v-if="userData && userData.userType === 'listener'">
+                    <label for="about-you">This will be public on the listeners page.</label>
+                  </h3>
+                  <h3 v-else>
                     <label for="about-you">This will help listeners understand the best way to help.</label>
                   </h3>
+
                   <textarea v-model="dataToSend.about" id="about" name="about" placeholder="Remember! Do not share any personal info that can help in identifying you: city, address, real name etc" required></textarea>
                 </div>
 
                 <div class="input-section">
-                  <h2>Tell us anything that may be triggering to you.</h2>
-                  <h3>
+                  <h2 v-if="userData && userData.userType === 'listener'">Share a favorite quote</h2>
+                  <h2 v-else>Tell us anything that may be triggering to you.</h2>
+                  <h3  v-if="userData && userData.userType === 'listener'">
+                    <label for="triggers">The quote will be public.</label>
+                  </h3>
+                  <h3 v-else>
                     <label for="triggers">Listeners will avoid these subjects.</label>
                   </h3>
-                  <textarea v-model="dataToSend.triggers" id="triggers" name="triggers" placeholder="We will avoid any discussion of religion and politics by default" required></textarea>
+                  <textarea v-model="dataToSend.triggers" id="triggers" name="triggers" :placeholder="placeholderText" required></textarea>
                 </div>
 
                 <div class="submit-section">
@@ -70,7 +80,8 @@
                 <p>{{ userData.about }}</p>
                 </div>
                 <div className="updated_section">
-                  <h2>Your triggers</h2>
+                  <h2 v-if="userData && userData.userType === 'listener'">Your quote</h2>
+                  <h2 v-else>Your triggers</h2>
                 <p>{{ userData.triggers }}</p>
                 </div>
               </div>
@@ -88,7 +99,7 @@
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import { useRouter } from "vue-router";
   defineProps({ blok: Object });
 
@@ -137,6 +148,15 @@ const openChat = async () => {
 const updateInfo = () => {
   showInputSection.value = true;
 };
+
+const placeholderText = computed(() => {
+  if (userData.value && userData.value.userType === 'listener') {
+    return "Keep the quote short and appropriate";
+  } else {
+    return "We will avoid any discussion of religion and politics by default";
+  }
+});
+
   
   </script>
   

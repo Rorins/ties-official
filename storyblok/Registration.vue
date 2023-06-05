@@ -148,6 +148,7 @@ const {addUserData} = useDatabase();
 const userData = {
       email: "",
       uid : null,
+      userType: "user",
   }
 
 const userPassword = ref("")
