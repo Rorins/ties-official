@@ -21,6 +21,17 @@ const useDatabase = () => {
       }
     };
 
+    //Creating messages
+  const createMessages = async (data) => {
+    try {
+      const messageCollectionRef = collection(db, 'messages');
+      const docRef = await addDoc(messageCollectionRef, data );
+      console.log(docRef, "document Id")
+      return data
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
     // Chat system
   const createChat = async (currentUserId, userName, router) => {
@@ -35,6 +46,24 @@ const useDatabase = () => {
       console.log(err.message);
     }
   };
+
+  const getMessagesByChatId = async (chatId) => {
+    try {
+      const messagesCollectionRef = collection(db, 'messages');
+      const q = query(messagesCollectionRef, where('chatRoomId', '==', chatId));
+      const querySnapshot = await getDocs(q);
+
+      const messages = [];
+      querySnapshot.forEach((doc) => {
+        messages.push(doc.data());
+      });
+
+      return messages;
+    } catch (err) {
+      console.log(err.message, "what is the error");
+      error.value = err.message;
+    }
+  };
   
     // Add new data to Firestore
     const addUserData = async (uid,data) => {
@@ -47,7 +76,18 @@ const useDatabase = () => {
         error.value = err.message;
       }
     };
-
+    
+     // get all document inside chat
+  const getChatDocuments= async () => {
+    try {
+      const chatCollectionRef = collection(db, 'chat');
+      const querySnapshot = await getDocs(chatCollectionRef);
+      const chatDocuments = querySnapshot.docs.map((doc) => doc.data());
+      return chatDocuments;
+    } catch (error) {
+      console.log(error.message , "returned chats");
+    }
+  }
     
     //Update data
     const updateUserData = async (uid, newData) => {
@@ -74,18 +114,7 @@ const useDatabase = () => {
       }
     };
 
-    
-  // get all document inside chat
-  const getChatDocuments= async () => {
-    try {
-      const chatCollectionRef = collection(db, 'chat');
-      const querySnapshot = await getDocs(chatCollectionRef);
-      const chatDocuments = querySnapshot.docs.map((doc) => doc.data());
-      return chatDocuments;
-    } catch (error) {
-      console.log(error.message , "returned chats");
-    }
-  }
+  
 
   // all documents by type
   const getUsersByUserType = async () => {
@@ -106,31 +135,6 @@ const useDatabase = () => {
     }
   };
    
-    //Chat system
-    const sendMessage = async (chatId, userId, messageText) => {
-      try {
-        await setDoc(doc(db, "users", uid), data);
-        const chatRef = doc(db, "chat", chatId);
-        const chatDoc = await getDoc(chatRef);
-        if (chatDoc.exists()) {
-          const chatData = chatDoc.data();
-          const newMessage = {
-            id: Date.now().toString(),
-            user: userId,
-            timestamp: new Date().toISOString(),
-            text: messageText,
-          };
-          chatData.messages.push(newMessage);
-          await updateDoc(chatRef, { messages: chatData.messages });
-          console.log("New message sent in chat room ", chatId);
-        } else {
-          console.error("Chat room not found!");
-        }
-      } catch (error) {
-        console.error("Error sending message: ", error);
-      }
-    };
-    
   
     return {
       error,
@@ -139,7 +143,9 @@ const useDatabase = () => {
       updateUserData,
       createChat,
       getUsersByUserType,
+      createMessages,
       getChatDocuments,
+      getMessagesByChatId,
     };
   };
   
