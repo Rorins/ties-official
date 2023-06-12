@@ -1,17 +1,18 @@
 <template>
    <div 
-   class="message" 
+   class="message d-flex" 
    :class="currentUser && currentUser.uid === senderId ? 'sent' : 'received'">
     <img :src="senderPhoto" />
-    <span>
+    <div>
+      <span>
         {{ text }}
     </span> 
+    </div>
    </div> 
   </template>
 
 <script setup>
 const { currentUser } = useAuth();
-const {uid} = useAuth();
   defineProps({
   text:String,
   sender: String,
@@ -27,6 +28,7 @@ const {uid} = useAuth();
   border-radius: 20px;
   padding: 10px;
   margin:10px 0;
+  word-break:break-word;
 }
 img{
   width:50px;
@@ -38,5 +40,6 @@ img{
 }
 .received{
   background-color:white;
+  align-self: flex-end;
 }
 </style>
