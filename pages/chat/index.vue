@@ -1,6 +1,6 @@
 <template>
     <div>
-    <h1>Let's wait for a listener to join you.</h1>
+    <h1>Click here to get back to the dashboard and start a new chat.</h1>
     </div>
   </template>
   

@@ -1,5 +1,6 @@
 import { ref } from "vue";
-import { auth } from "~/plugins/firebase";
+import { auth} from "~/plugins/firebase";
+import { updateProfile } from "firebase/auth";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -141,6 +142,21 @@ const passwordResetEmail = async (email) => {
     console.log("current user", currentUser.value);
   });
 
+  //update user info
+  const updateUserProfile = async (displayName, photoURL) => {
+    try {
+      await updateProfile(auth.currentUser, {
+        displayName,
+        photoURL
+      });
+      error.value = null;
+    } catch (err) {
+      console.log(err.message);
+      error.value = err.message;
+    }
+  };
+  
+
   return {
     error,
     currentUser,
@@ -150,7 +166,8 @@ const passwordResetEmail = async (email) => {
     loginWithGoogle,
     signUpWithGoogle,
     verifyEmail,
-    passwordResetEmail
+    passwordResetEmail,
+    updateUserProfile,
   };
 };
 

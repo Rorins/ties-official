@@ -11,11 +11,11 @@
               </div>
               <div>
                 <h2>{{ userData ? userData.nickName : 'Loading...' }}</h2>
-                <div class="btn_box">
-                  <button @click="updateInfo" class="btn-outline-light btn btn-dark">
-                    Change your info
-                  </button>
-                </div>
+              </div>
+              <div>
+                <button @click="changeProfile"  class="btn-outline-light btn btn-dark">
+                  Change profile
+                </button>
               </div>
             </div>
 
@@ -24,7 +24,7 @@
              <!--For regular user--> 
               <div v-if="userData && userData.userType === 'listener'" class="chat_box_content">
                 <h3>
-                  These are all your incoming chats
+                  Incoming chats
                 </h3>
 
                 <div class="chat_list">
@@ -49,7 +49,7 @@
               </div>
               <!-- Chat -->
               <div class="chat">
-                <button class="btn-outline-light btn btn-dark"  @click="openChat">
+                <button class="btn-outline-light btn btn-dark"  @click="openChat" >
                     Join chat
                 </button>
               </div>
@@ -61,10 +61,16 @@
           <div class="dashboard bg_colordark col-12 col-lg-8">
             <div>
               <h1>Hello, {{ userData ? userData.nickName : 'Loading...' }}. This is your dashboard.</h1>
+              <div class="btn_box">
+                  <button @click="updateInfo" v-if="!showInputSection" class="btn-outline-light btn btn-dark">
+                    Change your info
+                  </button>
+                </div>
 
               <!-- Input Sections or User's Information -->
               <section v-if="userData && (showInputSection || (!userData.about && !userData.triggers))">
                 <div class="input-section">
+
 
                   <h2 v-if="userData && userData.userType === 'listener'">Create a presentation for other users.</h2>
                   <h2 v-else>Tell us what brought you here.</h2>
@@ -125,7 +131,7 @@
   import { useRouter } from "vue-router";
   defineProps({ blok: Object });
 
-const { currentUser, error } = useAuth();
+const { currentUser,updateUserProfile, error } = useAuth();
 const { getUserData, updateUserData, createChat, getChatDocuments} = useDatabase();
 const userData = ref(null);
 const showInputSection = ref(false);
@@ -135,6 +141,7 @@ const dataToSend = {
   triggers: null,
 };
 const chatList = ref([]);
+const isFormSubmitted = ref(false);
 
 onMounted(async () => {
   try {
@@ -154,15 +161,21 @@ const submitData = async () => {
     userData.value.about = dataToSend.about; 
     userData.value.triggers = dataToSend.triggers;
     showInputSection.value = false; 
+    await updateUserProfile(userData.nickName, userData.currentImgUrl)
   } catch (err) {
     console.log(err.message);
   }
 };
 
 const openChat = async () => {
+  if (!userData.value.about || !userData.value.triggers) {
+    alert("Please insert data about yourself before joining the chat.");
+    return;
+  }
   try {
+    //This info will be sent by regular info
       const { uid } = currentUser.value;
-      await createChat(uid, userData.value.nickName, router);
+      await createChat(uid, userData.value.nickName,userData.value.about,userData.value.triggers, router);
     } catch (err) {
       console.log(err.message);
     }
@@ -174,6 +187,10 @@ const updateInfo = () => {
 
 const pushToChat = (chatId) => {
   router.push(`/chat/${chatId}`);
+};
+
+const changeProfile = () => {
+  router.push("/selection");
 };
 
 onMounted(async () => {
@@ -194,15 +211,16 @@ const placeholderText = computed(() => {
 });
 
 const uniqueChatList = computed(() => {
-  const displayedChatIds = [];
+  const displayedUserIds = [];
   return chatList.value.filter((chat) => {
-    if (!displayedChatIds.includes(chat.chatId)) {
-      displayedChatIds.push(chat.chatId);
+    if (!displayedUserIds.includes(chat.userId)) {
+      displayedUserIds.push(chat.userId);
       return true;
     }
     return false;
   });
 });
+
 
   
   </script>

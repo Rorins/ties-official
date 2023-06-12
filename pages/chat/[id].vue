@@ -1,11 +1,13 @@
 <template>
   <div class="container d-flex justify-content-center">
     <div class="chat_container h_600 bg_colordark ">
-    <h1>You are talking to </h1>
+    <h1>This is {{ chatData.userName }}' s chat </h1>
     <Message v-for="message in messageData" 
     :text = "message.text"
     :key="message.id"
-    :sender ="message.senderId">
+    :sender ="message.senderName"
+    :senderId = "message.senderId"
+    :senderPhoto = "message.senderPhoto">
     {{ message }}
   </Message>
 
@@ -14,18 +16,31 @@
       <button type="submit">Send Message</button>
     </form>
   </div>
+
+  <div class="details bg_colordark h_400">
+    <h2>
+      About {{ chatData.userName }}:
+    </h2>
+    <p>{{ chatData.otherInfo }}</p>
+    <h2> Avoid discussing:</h2>
+    <p> {{ chatData.about }}</p>
+  </div>
   </div>
 </template>
 
 
 <script setup>
-const { createMessages, getMessagesByChatId } = useDatabase();
+import { useRouter, useRoute } from "vue-router";
+const { createMessages, getMessagesByChatId, getChatData, deleteChat} = useDatabase();
 const { currentUser, error } = useAuth();
 //chat id
 const {id} = useRoute().params
+const router = useRouter();
 const messageData = ref([]);
 const inputText = ref('');
+const chatData = ref('');
 
+// Get messages
 onMounted(async () => {
   try {
     const messages = await getMessagesByChatId(id);
@@ -36,15 +51,27 @@ onMounted(async () => {
   }
 });
 
+//Get chat data
+onMounted(async () => {
+  try {
+    chatData.value = await getChatData(id);
+    console.log(chatData.value, "ALL CHAT DATA")
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 //creating message
 const sendMessage = async () => {
   try {
-    const { uid } = currentUser.value;
+    const { uid, displayName, photoURL } = currentUser.value;
 
     const message = {
       chatRoomId: id,
       text: inputText.value,
       senderId: uid,
+      senderName: displayName,
+      senderPhoto: photoURL,
     };
 
     const data = await createMessages(message);
@@ -56,6 +83,16 @@ const sendMessage = async () => {
     }
 };
 
+const deleteChatRoom = async () => {
+    try {
+      await deleteChat(id);
+      router.push("/chat");
+    } catch (error) {
+      console.log('Error deleting chat:', error);
+    }
+  };
+
+
 </script>
 
 <style scoped lang="scss">
@@ -65,5 +102,11 @@ const sendMessage = async () => {
   border-radius: 20px;
   border: 3px solid #ddd3c9;
   width:800px;
+}
+.details{
+  padding: 80px;
+  margin:100px 0;
+  border-radius: 20px;
+  border: 3px solid #ddd3c9;
 }
 </style>

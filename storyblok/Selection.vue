@@ -1,7 +1,7 @@
 <template>
     <section class="d-flex justify-content-center bg_colorlight">
           <div class="user-info bg_colordark text-center" >
-          <div>
+          <div v-if="currentUser && !currentUser.emailVerified">
             <span>We sent you a verification link! Don't forget to check your email.</span>
           </div>
           <h1>{{blok.title}}</h1>
@@ -99,7 +99,7 @@
 
   //store data in database
   const {updateUserData, error } = useDatabase()
-  const { currentUser} = useAuth();
+  const { currentUser, updateUserProfile} = useAuth();
   const validationPrompt = ref(false);
   const userData = {
       nickName: "",
@@ -119,6 +119,7 @@
           //Update data object to send
           console.log("updated Data", userData)
           await updateUserData(uid, userData);
+          await updateUserProfile(userData.nickName, userData.currentImgUrl)
         console.log("User data updated successfully");
         if(!error.value){
         router.push("/dashboard");
