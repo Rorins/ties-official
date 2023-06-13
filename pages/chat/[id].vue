@@ -88,12 +88,11 @@ const sendMessage = async () => {
 const deleteChatRoom = async () => {
     try {
       await deleteChat(id);
-      router.push("/chat");
+      console.log(id,"checking chat id")
     } catch (error) {
       console.log('Error deleting chat:', error);
     }
   };
-
 
 </script>
 
@@ -105,6 +104,9 @@ const deleteChatRoom = async () => {
     .chat_container, .details{
       margin-bottom:20px;
       width:100%;
+      form{
+        width:100%;
+      }
     }
     .details{
       margin:0;

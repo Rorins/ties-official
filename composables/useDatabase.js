@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { doc, setDoc, getDoc, getDocs, addDoc, updateDoc, collection, query, where} from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs, addDoc, updateDoc,deleteDoc, collection, query, where} from "firebase/firestore";
 import { db } from "~/plugins/firebase";
 
 // user data to database
