@@ -63,6 +63,16 @@ onMounted(async () => {
   }
 });
 
+ // Delete chat room
+ onUnmounted(async () => {
+      try {
+        await deleteChat(id);
+        console.log('deleted chat room');
+      } catch (error) {
+        console.log('Error deleting chat:', error);
+      }
+    });
+
 //creating message
 const sendMessage = async () => {
   try {
