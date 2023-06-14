@@ -3,7 +3,7 @@
     <div class="container">
       <div class="contact text-center">
       <h2 >Want to become a listener?</h2>
-      <p class="btn-outline-light btn btn-dark">Contact us and we will set you up!</p>
+      <p @click="navigateToContact" class="btn-outline-light btn btn-dark">Contact us and we will set you up!</p>
     </div>
       <div class="row">
         <ListenerCard
@@ -21,6 +21,8 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+const router = useRouter();
 defineProps({ blok: Object });
 const { getUsersByUserType } = useDatabase();
 const users = ref([]);
@@ -33,6 +35,10 @@ onMounted(async () => {
     console.log(err.message);
   }
 });
+
+const navigateToContact = () => {
+    router.push("/become-listener");
+};
 
 </script>
 
