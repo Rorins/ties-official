@@ -57,12 +57,13 @@ const deleteAndRedirect = async () => {
 
 onBeforeUnmount(deleteAndRedirect);
 
-// Get messages
-onMounted(async () => {
+// Gets messages from the collection named messages in firestore(it checks the documents/messages that have a field named chatRoomId that is the same as the id of the chatroom)
+// So as we have 2 collections: chat collection and messages collection, the messages in the messages collection get tied to the specific chat room
+//the watchEffect should from what I understand listen to changes and do something accordingly
+watchEffect(async () => {
   try {
     const messages = await getMessagesByChatId(id);
     messageData.value = messages;
-    console.log(messageData, "all messages")
   } catch (err) {
     console.log(err.message);
   }
