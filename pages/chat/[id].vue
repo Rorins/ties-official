@@ -33,6 +33,7 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
+import { onBeforeUnmount } from 'vue'
 const { createMessages, getMessagesByChatId, getChatData, deleteChat} = useDatabase();
 const { currentUser, error } = useAuth();
 //chat id
@@ -41,6 +42,23 @@ const router = useRouter();
 const messageData = ref([]);
 const inputText = ref('');
 const chatData = ref('');
+
+const refreshAndDelete = async () => {
+  try {
+    await deleteChat(id);
+    refreshPage();
+    console.log(id, "this is the id of the chat, the chat should be delated")
+    router.push("/chat");
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+onBeforeUnmount(() => {
+  refreshAndDelete();
+});
+
+
 
 // Get messages
 onMounted(async () => {
@@ -63,15 +81,7 @@ onMounted(async () => {
   }
 });
 
- // Delete chat room
- onUnmounted(async () => {
-      try {
-        await deleteChat(id);
-        console.log('deleted chat room');
-      } catch (error) {
-        console.log('Error deleting chat:', error);
-      }
-    });
+
 
 //creating message
 const sendMessage = async () => {
@@ -95,14 +105,6 @@ const sendMessage = async () => {
     }
 };
 
-const deleteChatRoom = async () => {
-    try {
-      await deleteChat(id);
-      console.log(id,"checking chat id")
-    } catch (error) {
-      console.log('Error deleting chat:', error);
-    }
-  };
 
 </script>
 
