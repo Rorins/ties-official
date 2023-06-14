@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-content-center">
+  <div v-if="chatData" class="container d-flex justify-content-center">
     <div class="chat_container h_600 bg_colordark ">
     <h1>This is {{ chatData.userName }}' s chat </h1>
     <div class="message_list d-flex flex-column">
@@ -33,7 +33,8 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { onBeforeUnmount } from 'vue'
+import { onBeforeUnmount } from 'vue';
+
 const { createMessages, getMessagesByChatId, getChatData, deleteChat} = useDatabase();
 const { currentUser, error } = useAuth();
 //chat id
@@ -43,22 +44,17 @@ const messageData = ref([]);
 const inputText = ref('');
 const chatData = ref('');
 
-const refreshAndDelete = async () => {
+//Delete chat when user changes page
+const deleteAndRedirect = async () => {
   try {
-    await deleteChat(id);
-    refreshPage();
-    console.log(id, "this is the id of the chat, the chat should be delated")
     router.push("/chat");
+    await deleteChat(id);
   } catch (err) {
     console.log(err.message);
   }
 };
 
-onBeforeUnmount(() => {
-  refreshAndDelete();
-});
-
-
+onBeforeUnmount(deleteAndRedirect);
 
 // Get messages
 onMounted(async () => {
