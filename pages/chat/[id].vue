@@ -23,9 +23,9 @@
     <h2>
       About {{ chatData.userName }}:
     </h2>
-    <p>{{ chatData.otherInfo }}</p>
+    <p>{{ chatData.about }}</p>
     <h2> Avoid discussing:</h2>
-    <p> {{ chatData.about }}</p>
+    <p> {{ chatData.otherInfo}}</p>
   </div>
   </div>
 </template>
@@ -35,7 +35,7 @@
 import { useRouter, useRoute } from "vue-router";
 import { onBeforeUnmount } from 'vue';
 
-const { createMessages, getMessagesByChatId, getChatData, deleteChat} = useDatabase();
+const { createMessages, getMessagesByChatId, getChatData, deleteChat, deleteMessages} = useDatabase();
 const { currentUser, error } = useAuth();
 //chat id
 const {id} = useRoute().params
@@ -49,6 +49,7 @@ const deleteAndRedirect = async () => {
   try {
     router.push("/chat");
     await deleteChat(id);
+    await deleteMessages(id);
   } catch (err) {
     console.log(err.message);
   }

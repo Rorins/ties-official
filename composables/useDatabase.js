@@ -172,6 +172,24 @@ const useDatabase = () => {
     }
   };
   
+  // Delete messages by chatRoomId
+  const deleteMessages = async (chatId) => {
+    try {
+      const messagesCollectionRef = collection(db, "messages");
+      const q = query(messagesCollectionRef, where("chatRoomId", "==", chatId));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+
+      console.log("Messages deleted successfully");
+      error.value = null;
+    } catch (err) {
+      console.log("Delete messages error", err.message);
+      error.value = err.message;
+    }
+  };
 
   
     return {
@@ -186,6 +204,7 @@ const useDatabase = () => {
       getMessagesByChatId,
       getChatData,
       deleteChat,
+      deleteMessages,
     };
   };
   
