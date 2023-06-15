@@ -282,9 +282,9 @@ const uniqueChatList = computed(() => {
       }
     }
     .img_box{
-        width:200px;
-        height:200px;
-        margin-bottom:20px;
+        width:100px;
+        height:100px;
+        margin:0 auto;
         img{
             width:100%;
             height:100%;

@@ -37,10 +37,11 @@
 
                 </div>
             </div>
+
+            <input type="hidden" name="_after" value="">
+
             <div class="text-center text-md-left">
             <button type="submit" class="btn-outline-light btn btn-dark" >Send</button>
-            </div>
-            <div type="hidden" name="_after" value="/">
             </div>
         </form>
     </div>
@@ -58,7 +59,6 @@ defineProps({ blok: Object });
 
 <style scoped lang="scss">
 .contact{
-    padding:10px;
-    height:100vh;
+    margin:100px;
 }
 </style>

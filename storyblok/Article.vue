@@ -28,7 +28,7 @@ const article = computed(() => renderRichText(props.blok.paragraph));
 
 <style scoped lang="scss">
 .article {
-  margin-top: 100px;
+  padding-top: 100px;
   .img_container {
     width: 100%;
     img {

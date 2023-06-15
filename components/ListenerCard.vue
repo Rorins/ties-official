@@ -31,7 +31,7 @@ defineProps({
   display: flex;
   margin: 80px 0;
   .img_container {
-    max-width: 300px;
+    width:50%;
     max-height: 200px;
     border-radius: 50%;
     background-color: white;

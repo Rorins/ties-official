@@ -114,6 +114,21 @@ const handleLogout = async () => {
     router.push("/");
   }
 };
+
+//Close account menu div when clicking outside 
+onMounted(() => {
+  document.addEventListener("click", closeAccountMenu);
+});
+
+function closeAccountMenu(event) {
+  const target = event.target;
+  const accountButton = document.querySelector(".account");
+  const accountMenu = document.querySelector(".account_menu");
+
+  if (accountButton && accountMenu && !accountButton.contains(target) && !accountMenu.contains(target) && showAccountMenu.value) {
+    showAccountMenu.value = false;
+  }
+}
 </script>
 
 <style scoped lang="scss">

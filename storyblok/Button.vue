@@ -1,6 +1,6 @@
 <template>
   <a v-editable="blok" :href="blok.link.cached_url">
-    <button type="button" class="btn">
+    <button type="button" class="btn-outline-light btn btn-dark">
       <h3>{{ blok.text }}</h3>
       <img
         class="icon"
@@ -18,26 +18,10 @@ defineProps({ blok: Object });
 
 <style scoped lang="scss">
 a {
-  margin-bottom: 20px;
-  .btn {
-    width: 280px;
-    background-color: black;
-    color: white;
-    padding: 10px;
-    &:hover {
-      background-color: white;
-      color: black;
-      border: 1px solid black;
-    }
     h3 {
       font-size: 20px;
       margin: 0;
       display: inline-block;
     }
-    .icon {
-      width: 30px;
-      margin: 0 10px;
-    }
-  }
 }
 </style>

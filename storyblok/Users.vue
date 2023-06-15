@@ -37,7 +37,7 @@ onMounted(async () => {
 });
 
 const navigateToContact = () => {
-    router.push("/become-listener");
+    router.push("/contact-us");
 };
 
 </script>
