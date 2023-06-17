@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { doc, setDoc, getDoc, getDocs, addDoc, updateDoc,deleteDoc, collection, query, where} from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs, addDoc, updateDoc,deleteDoc, collection, query, where, onSnapshot} from "firebase/firestore";
 import { db } from "~/plugins/firebase";
 
 // user data to database
@@ -128,7 +128,7 @@ const useDatabase = () => {
         return messages; // <-- Return the ref, so you can use it in your component
 
       } catch (err) {
-        console.log(err.message, "what is the error");
+        console.error(err.message, "what is the error");
         error.value = err.message;
       }
   };
