@@ -62,8 +62,7 @@ onBeforeUnmount(deleteAndRedirect);
 //the watchEffect should from what I understand listen to changes and do something accordingly
 watchEffect(async () => {
   try {
-    const messages = await getMessagesByChatId(id);
-    messageData.value = messages;
+    messageData = getMessagesByChatId(id); // Notice that we don't use await here and directly assign the ref
   } catch (err) {
     console.log(err.message);
   }
@@ -94,13 +93,12 @@ const sendMessage = async () => {
       senderPhoto: photoURL,
     };
 
-    const data = await createMessages(message);
-    messageData.value.push(data);
-     console.log(messageData.value, "stuff")
-     inputText.value = '';
-    } catch (err) {
-      console.log(err.message);
-    }
+    await createMessages(message); // just create the message, onSnapshot will handle adding it to messageData
+    inputText.value = '';
+
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 
