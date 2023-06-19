@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-content-center">
+  <div v-if="chatData" class="container d-flex justify-content-center">
     <div class="chat_container h_600 bg_colordark ">
     <h1>This is {{ chatData.userName }}' s chat </h1>
     <div class="message_list d-flex flex-column">
@@ -23,9 +23,9 @@
     <h2>
       About {{ chatData.userName }}:
     </h2>
-    <p>{{ chatData.otherInfo }}</p>
+    <p>{{ chatData.about }}</p>
     <h2> Avoid discussing:</h2>
-    <p> {{ chatData.about }}</p>
+    <p> {{ chatData.otherInfo}}</p>
   </div>
   </div>
 </template>
@@ -33,25 +33,29 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-const { createMessages, getMessagesByChatId, getChatData, deleteChat} = useDatabase();
+import { onBeforeUnmount } from 'vue';
+
+const { createMessages, getMessagesByChatId, getChatData, deleteChat, deleteMessages} = useDatabase();
 const { currentUser, error } = useAuth();
 //chat id
 const {id} = useRoute().params
 const router = useRouter();
-const messageData = ref([]);
+const messageData = getMessagesByChatId(id);
 const inputText = ref('');
 const chatData = ref('');
 
-// Get messages
-onMounted(async () => {
+//Delete chat when user changes page
+const deleteAndRedirect = async () => {
   try {
-    const messages = await getMessagesByChatId(id);
-    messageData.value = messages;
-    console.log(messageData, "all messages")
+    router.push("/chat");
+    await deleteChat(id);
+    await deleteMessages(id);
   } catch (err) {
     console.log(err.message);
   }
-});
+};
+
+onBeforeUnmount(deleteAndRedirect);
 
 //Get chat data
 onMounted(async () => {
@@ -62,6 +66,8 @@ onMounted(async () => {
     console.log(err.message);
   }
 });
+
+
 
 //creating message
 const sendMessage = async () => {
@@ -76,23 +82,14 @@ const sendMessage = async () => {
       senderPhoto: photoURL,
     };
 
-    const data = await createMessages(message);
-    messageData.value.push(data);
-     console.log(messageData.value, "stuff")
-     inputText.value = '';
-    } catch (err) {
-      console.log(err.message);
-    }
+    await createMessages(message); // just create the message, onSnapshot will handle adding it to messageData
+    inputText.value = '';
+
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
-const deleteChatRoom = async () => {
-    try {
-      await deleteChat(id);
-      console.log(id,"checking chat id")
-    } catch (error) {
-      console.log('Error deleting chat:', error);
-    }
-  };
 
 </script>
 
