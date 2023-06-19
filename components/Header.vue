@@ -211,7 +211,7 @@ function closeAccountMenu(event) {
   .full-page {
     height: 100vh;
     text-align: center;
-    margin: 100px auto;
+    margin: 50px auto;
     font-size: 60px;
   }
 }

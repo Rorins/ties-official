@@ -32,6 +32,10 @@ const useBackground = computed(() => props.blok.useBackground);
 <style lang="scss">
 .two_column {
   padding: 80px 0;
+  .medium-width{
+    display:block;
+    text-align:center;
+  }
   .second_column h2,
   .first_column h2 {
     font-weight: 400;
@@ -42,13 +46,9 @@ const useBackground = computed(() => props.blok.useBackground);
     text-align: right;
   }
   //medium image
-  .first_column .medium-width .second_column .medium-width {
-    display: block;
-    text-align: center;
-  }
   .first_column .medium-width img,
   .second_column .medium-width img {
-    width: 80%;
+    width: 50%;
   }
   //regular big image
   .first_column img,
@@ -62,7 +62,7 @@ const useBackground = computed(() => props.blok.useBackground);
   @media screen and (max-width: 580px) {
     .first_column .medium-width img,
     .second_column .medium-width img {
-      width: 80%;
+      width: 50%;
     }
   }
 }

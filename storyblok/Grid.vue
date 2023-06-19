@@ -23,6 +23,11 @@ defineProps({ blok: Object });
 </script>
 
 <style scoped lang="scss">
+@media screen and (max-width: 400px) {
+  .grid{
+    padding-top:50px;
+  }
+}
 .grid {
   padding: 80px 0;
   .container {

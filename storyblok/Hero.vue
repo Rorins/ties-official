@@ -43,7 +43,7 @@ defineProps({ blok: Object });
 //Added mediaquery
 @media screen and (max-width: 991px) {
   .hero-image {
-    height: 400px;
+    min-height: 400px;
   }
 }
 </style>
