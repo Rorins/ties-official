@@ -40,7 +40,7 @@ const { currentUser, error } = useAuth();
 //chat id
 const {id} = useRoute().params
 const router = useRouter();
-const messageData = ref([]);
+const messageData = getMessagesByChatId(id);
 const inputText = ref('');
 const chatData = ref('');
 
@@ -56,18 +56,6 @@ const deleteAndRedirect = async () => {
 };
 
 onBeforeUnmount(deleteAndRedirect);
-
-// Gets messages from the collection named messages in firestore(it checks the documents/messages that have a field named chatRoomId that is the same as the id of the chatroom)
-// So as we have 2 collections: chat collection and messages collection, the messages in the messages collection get tied to the specific chat room
-//the watchEffect should from what I understand listen to changes and do something accordingly
-watchEffect(async () => {
-  try {
-    const messages = await getMessagesByChatId(id);
-    messageData.value = messages;
-  } catch (err) {
-    console.log(err.message);
-  }
-});
 
 //Get chat data
 onMounted(async () => {
@@ -94,13 +82,12 @@ const sendMessage = async () => {
       senderPhoto: photoURL,
     };
 
-    const data = await createMessages(message);
-    messageData.value.push(data);
-     console.log(messageData.value, "stuff")
-     inputText.value = '';
-    } catch (err) {
-      console.log(err.message);
-    }
+    await createMessages(message); // just create the message, onSnapshot will handle adding it to messageData
+    inputText.value = '';
+
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 
