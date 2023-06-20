@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { doc, setDoc, getDoc, getDocs, addDoc, updateDoc,deleteDoc, collection, query, where, onSnapshot} from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs, addDoc, updateDoc,orderBy,deleteDoc, collection, query, where, onSnapshot} from "firebase/firestore";
 import { db } from "~/plugins/firebase";
 
 // user data to database
@@ -99,17 +99,13 @@ const useDatabase = () => {
       }
     };
 
-   
-    //THIS WAS MY INITIAL APPROACH, IT WORKS BUT THE DATA DOESN'T RE-RENDER OR UPDATE WHEN A DOCUMENT/MESSAGE GETS ADDED TO THE MESSAGES COLLECTION 
-    //ON THE FIRESTORE DATABASE, SO IT DOESN'T GET THE UPDATED MESSAGES IF NOT BY REFRESHING THE PAGE
-    //I COMMENTED IT AS IT'S THE WORKING ONE BUT DOESN'T RENDER MESSAGES IN REAL TIME
-
     const getMessagesByChatId = (chatId) => {
       try {
         const messages = ref([]); // <-- This will store the real-time messages
 
         const messagesCollectionRef = collection(db, 'messages');
-        const q = query(messagesCollectionRef, where('chatRoomId', '==', chatId));
+        const q = query(messagesCollectionRef, 
+        where('chatRoomId', '==', chatId), orderBy('createdAt'));
 
         // Listen for real-time updates
         const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -132,46 +128,7 @@ const useDatabase = () => {
         error.value = err.message;
       }
   };
-  
-    // const getMessagesByChatId = async (chatId) => {
-    //   try {
-    //     const messagesCollectionRef = collection(db, 'messages');
-    //     const q = query(messagesCollectionRef, where('chatRoomId', '==', chatId));
-    //     const querySnapshot = await getDocs(q);
-  
-    //     const messages = [];
-    //     querySnapshot.forEach((doc) => {
-    //       messages.push(doc.data());
-    //     });
-  
-    //     return messages;
-    //   } catch (err) {
-    //     console.log(err.message, "what is the error");
-    //     error.value = err.message;
-    //   }
-    // };
-    
-    // THIS IS WHERE I ADDED THE ONSNAPSHOT TO GET REAL TIME UPDATES BUT IT'S MESSING UP THE REST OF THE CODE
-    // WITH THIS MY MESSAGES DON'T EVEN DISPLAY AND FROM WHAT YOU CAN SEE FROM THE CONSOLE OTHER THINGS ARE GETTING AFFECTED
-    // const getMessagesByChatId = (chatId) => {
-    //   try {
-    //     const messagesCollectionRef = collection(db, 'messages');
-    //     const q = query(messagesCollectionRef, where('chatRoomId', '==', chatId));
-    
-    //     const realTimeMessages = onSnapshot(q, (snapshot) => {
-    //       const messages = [];
-    //       snapshot.forEach((doc) => {
-    //         messages.push(doc.data());
-    //       });
-    //     });
-        
-    //     console.log(realTimeMessages,"real time messages here")
-    //     return realTimeMessages;
-    //   } catch (err) {
-    //     console.log(err.message, "what is the error");
-    //     error.value = err.message;
-    //   }
-    // };
+
     
    
      // get all document inside chat
