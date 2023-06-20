@@ -2,7 +2,7 @@
   <div v-if="chatData" class="container d-flex justify-content-center">
     <div class="chat_container h_600 bg_colordark ">
     <h1>This is {{ chatData.userName }}' s chat </h1>
-    <div class="message_list d-flex flex-column">
+    <div ref="messageListRef" class="message_list d-flex flex-column">
     <Message v-for="message in messageData" 
     :text = "message.text"
     :key="message.id"
@@ -32,6 +32,7 @@
 
 
 <script setup>
+import { serverTimestamp } from 'firebase/firestore';
 import { useRouter, useRoute } from "vue-router";
 import { onBeforeUnmount } from 'vue';
 
@@ -43,6 +44,7 @@ const router = useRouter();
 const messageData = getMessagesByChatId(id);
 const inputText = ref('');
 const chatData = ref('');
+const messageListRef = ref(null);
 
 //Delete chat when user changes page
 const deleteAndRedirect = async () => {
@@ -67,8 +69,6 @@ onMounted(async () => {
   }
 });
 
-
-
 //creating message
 const sendMessage = async () => {
   try {
@@ -80,6 +80,7 @@ const sendMessage = async () => {
       senderId: uid,
       senderName: displayName,
       senderPhoto: photoURL,
+      createdAt: serverTimestamp(),
     };
 
     await createMessages(message); // just create the message, onSnapshot will handle adding it to messageData
@@ -90,6 +91,19 @@ const sendMessage = async () => {
   }
 };
 
+// Scroll to the bottom of the message list when a new message is added
+watch(messageData, () => {
+  scrollToBottom();
+});
+
+// Scroll to the bottom of the message list
+const scrollToBottom = () => {
+  const messageList = messageListRef.value;
+  console.log(messageListRef.value, 'Value')
+  if (messageList) {
+    messageList.scrollTop = messageList.scrollHeight;
+  }
+};
 
 </script>
 

@@ -3,7 +3,7 @@
     <div class="container">
     <img src="~/assets/sent.png" />
     <h1>Your chat has been deleted, click here to get back to the dashboard or home.</h1>
-    <button class="btn-outline-light btn btn-dark" @click="redirect">Dashboard</button>
+    <button class="btn-outline-light btn btn-dark" @click="redirect">Back</button>
     </div>
   </section>
   </template>
