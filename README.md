@@ -1,5 +1,7 @@
 # Contributors 
-[![Contributors][contributors-shield]][contributors-url]
+<a href="https://github.com/rorins/ties-official/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=rorins/ties-official" />
+</a>
 
 # About The Project
 
