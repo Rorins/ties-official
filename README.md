@@ -1,4 +1,7 @@
-# Nuxt 3 Minimal Starter
+# About The Project
+
+![immagine](https://github.com/Rorins/ties-official/assets/77445911/5516e1fa-6007-40c6-92b8-7fda34c04cac)
+
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
