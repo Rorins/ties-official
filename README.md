@@ -10,8 +10,7 @@
 
 ### Built With
 
-* [![Nuxt.js][Nuxt.com][Nuxt-url]
-* [![Firebase][Firebase.com][Firebase-url]
+Nuxt and Firebase
   
 ## Setup
 
