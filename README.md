@@ -7,6 +7,12 @@
 
 ![immagine](https://github.com/Rorins/ties-official/assets/77445911/5516e1fa-6007-40c6-92b8-7fda34c04cac)
 
+
+### Built With
+
+* [![Nuxt.js][Nuxt-url]
+* [![Firebase][Firebase-url]
+  
 ## Setup
 
 Make sure to install the dependencies:
