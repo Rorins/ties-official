@@ -32,9 +32,9 @@ const useBackground = computed(() => props.blok.useBackground);
 <style lang="scss">
 .two_column {
   padding: 80px 0;
-  .medium-width{
-    display:block;
-    text-align:center;
+  .medium-width {
+    display: block;
+    text-align: center;
   }
   .second_column h2,
   .first_column h2 {

@@ -25,35 +25,32 @@
           <div class="navbar-nav me-auto mb-2 mb-lg-0"></div>
           <div>
             <ul class="navbar-nav">
-
-               <!-- Profile -->
-              <li @click="toggleAccountMenu" v-if="currentUser" class="account nav-item active">
-                  <button class="btn">
-                  Account
-                </button>
+              <!-- Profile -->
+              <li
+                @click="toggleAccountMenu"
+                v-if="currentUser"
+                class="account nav-item active"
+              >
+                <button class="btn">Account</button>
               </li>
 
-
-                <!-- Account menu -->
-                <div v-if="showAccountMenu && currentUser" class="account_menu">
+              <!-- Account menu -->
+              <div v-if="showAccountMenu && currentUser" class="account_menu">
                 <nuxt-link to="/dashboard">
-                  <button class="btn">
-                  Dashboard
-                </button>
+                  <button class="btn">Dashboard</button>
                 </nuxt-link>
 
-                <button class="btn" @click="handleLogout">
-                  Sign-out
-                </button>
+                <button class="btn" @click="handleLogout">Sign-out</button>
               </div>
-              
-               <!-- Profile mobile -->
-               <nuxt-link v-if="currentUser" class="profile nav-link" to="/dashboard">
-                <li class=" nav-item active">
-                Profile
-                </li>
-               </nuxt-link>
 
+              <!-- Profile mobile -->
+              <nuxt-link
+                v-if="currentUser"
+                class="profile nav-link"
+                to="/dashboard"
+              >
+                <li class="nav-item active">Profile</li>
+              </nuxt-link>
 
               <li>
                 <!--TO SUBSCRIBE-->
@@ -90,7 +87,7 @@ import { useRouter } from "vue-router";
 import useAuth from "~/composables/useAuth";
 
 //Functions firebase for authentication
-const {currentUser, logoutUser, error } = useAuth();
+const { currentUser, logoutUser, error } = useAuth();
 const router = useRouter();
 
 const menuOpen = ref(false);
@@ -104,7 +101,7 @@ function toggleMenu() {
 }
 
 function toggleAccountMenu() {
-  showAccountMenu.value = !showAccountMenu.value
+  showAccountMenu.value = !showAccountMenu.value;
 }
 
 //logout
@@ -115,7 +112,7 @@ const handleLogout = async () => {
   }
 };
 
-//Close account menu div when clicking outside 
+//Close account menu div when clicking outside
 onMounted(() => {
   document.addEventListener("click", closeAccountMenu);
 });
@@ -125,7 +122,13 @@ function closeAccountMenu(event) {
   const accountButton = document.querySelector(".account");
   const accountMenu = document.querySelector(".account_menu");
 
-  if (accountButton && accountMenu && !accountButton.contains(target) && !accountMenu.contains(target) && showAccountMenu.value) {
+  if (
+    accountButton &&
+    accountMenu &&
+    !accountButton.contains(target) &&
+    !accountMenu.contains(target) &&
+    showAccountMenu.value
+  ) {
     showAccountMenu.value = false;
   }
 }
@@ -135,38 +138,38 @@ function closeAccountMenu(event) {
 /*NAVBAR*/
 .navbar {
   background-color: #ebe2db !important;
-  a{
-    text-decoration:none;
+  a {
+    text-decoration: none;
   }
   img {
     height: 50px;
   }
-  .btn{
-      color:white;
-      background-color:black;
-      border-radius:20px;
-      &:hover{
-        color:black;
-        background-color:white;
-      }
+  .btn {
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+    &:hover {
+      color: black;
+      background-color: white;
     }
+  }
   .user {
     background-color: white;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin: 0 20px;
-    position:relative;
-    cursor:pointer;
-    &:hover{
+    position: relative;
+    cursor: pointer;
+    &:hover {
       filter: grayscale(20%);
     }
     //Mediaquery for full page toggle
-  @media screen and (max-width: 991px) {
-    &{
-      display:none;
+    @media screen and (max-width: 991px) {
+      & {
+        display: none;
+      }
     }
-    }   
     img {
       width: 100%;
       height: 100%;
@@ -174,31 +177,32 @@ function closeAccountMenu(event) {
       border-radius: inherit;
     }
   }
-  .account_menu{
-    background-color:white;
-    border-radius:20px;
-    display:flex;
-    flex-direction:column;
-    padding:20px;
-    position:absolute;
-    top:70px;
-    a, button{
-      margin:5px 0;
+  .account_menu {
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: absolute;
+    top: 70px;
+    a,
+    button {
+      margin: 5px 0;
     }
   }
-  .account{
+  .account {
     @media screen and (max-width: 991px) {
-    &{
-      display:none;
-    }
+      & {
+        display: none;
+      }
     }
   }
-  .profile{
-    display:none;
+  .profile {
+    display: none;
     @media screen and (max-width: 991px) {
-    &{
-      display:block;
-    }
+      & {
+        display: block;
+      }
     }
   }
 }

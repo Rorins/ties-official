@@ -9,40 +9,39 @@
         <h1>{{ blok.title }}</h1>
         <div v-html="undertitle"></div>
         <div class="inputs">
-        <div class="email">
-          <div><label for="email">E-mail</label></div>
-          <div class="email_input">
-          <input
-            v-model="userData.email"
-            type="email"
-            name="email"
-            id="email"
-            placeholder="e-mail"
-            required
-          />
-        </div>
-        </div>
-        <div class="password">
-          <div><label for="password">Password</label></div>
-          <div class="password_input">
-            <input
-            v-model="userPassword"
-            :type="showPassword ? 'text' : 'password'"
-            name="password"
-            id="password"
-            placeholder="password"
-            required
-          />
-          <button @click="togglePwd">
-            <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-          </button>
+          <div class="email">
+            <div><label for="email">E-mail</label></div>
+            <div class="email_input">
+              <input
+                v-model="userData.email"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="e-mail"
+                required
+              />
+            </div>
           </div>
+          <div class="password">
+            <div><label for="password">Password</label></div>
+            <div class="password_input">
+              <input
+                v-model="userPassword"
+                :type="showPassword ? 'text' : 'password'"
+                name="password"
+                id="password"
+                placeholder="password"
+                required
+              />
+              <button @click="togglePwd">
+                <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
 
-          <div v-if="error" class="validation_box">
-            <span>{{ error}}</span>
+            <div v-if="error" class="validation_box">
+              <span>{{ error }}</span>
+            </div>
           </div>
-          
-        </div>
         </div>
         <div class="btn_container">
           <button type="submit" @click="registerUser($event)">
@@ -69,45 +68,45 @@
         <h1>{{ blok.title }}</h1>
         <div v-html="undertitle"></div>
         <div class="inputs">
-        <div class="email">
-          <div><label for="email">E-mail</label></div>
-        <div class="email_input">
-          <input
-            v-model="userData.email"
-            type="email"
-            name="email"
-            id="email"
-            placeholder="e-mail"
-            required
-          />
-        </div>
-        </div>
-        <div class="password">
-          <div><label for="password">Password</label></div>
-          <div class="password_input">
-            <input
-            v-model="userPassword"
-            :type="showPassword ? 'text' : 'password'"
-            name="password"
-            id="password"
-            placeholder="password"
-            required
-          />
-          <button @click="togglePwd">
-            <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-          </button>
+          <div class="email">
+            <div><label for="email">E-mail</label></div>
+            <div class="email_input">
+              <input
+                v-model="userData.email"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="e-mail"
+                required
+              />
+            </div>
           </div>
-          <h3>
-            <a :href=blok.link.cached_url>
-            {{ blok.linkText}}
-           </a>
-         </h3>
+          <div class="password">
+            <div><label for="password">Password</label></div>
+            <div class="password_input">
+              <input
+                v-model="userPassword"
+                :type="showPassword ? 'text' : 'password'"
+                name="password"
+                id="password"
+                placeholder="password"
+                required
+              />
+              <button @click="togglePwd">
+                <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <h3>
+              <a :href="blok.link.cached_url">
+                {{ blok.linkText }}
+              </a>
+            </h3>
+          </div>
         </div>
-      </div>
 
-      <div v-if="error" class="validation_box">
-           <span>{{error}}</span>
-      </div>
+        <div v-if="error" class="validation_box">
+          <span>{{ error }}</span>
+        </div>
 
         <div class="btn_container">
           <button type="submit" @click="submitLogin">
@@ -124,7 +123,6 @@
         </div>
       </aside>
     </div>
-
   </div>
 </template>
 
@@ -133,26 +131,32 @@ import { useRouter } from "vue-router";
 import useAuth from "~/composables/useAuth";
 import { ref } from "vue";
 
-
 const props = defineProps({ blok: Object });
 const undertitle = computed(() => renderRichText(props.blok.undertitle));
 const signUp = computed(() => props.blok.isSignUp);
 const signIn = computed(() => props.blok.isSignIn);
 
 //Functions firebase for authentication and firebase database
-const { createUser, loginUser, loginWithGoogle, signUpWithGoogle, verifyEmail, currentUser, error } =
-  useAuth();
-const {addUserData} = useDatabase();
+const {
+  createUser,
+  loginUser,
+  loginWithGoogle,
+  signUpWithGoogle,
+  verifyEmail,
+  currentUser,
+  error,
+} = useAuth();
+const { addUserData } = useDatabase();
 
 //user data for authentication
 const userData = {
-      email: "",
-      uid : null,
-      userType: "user",
-  }
+  email: "",
+  uid: null,
+  userType: "user",
+};
 
-const userPassword = ref("")
-const showPassword = ref(false)
+const userPassword = ref("");
+const showPassword = ref(false);
 const router = useRouter();
 
 //sign-in sign-up
@@ -160,24 +164,24 @@ const registerUser = async (event) => {
   console.log("email:", userData.email, "password:", userPassword.value);
   event.preventDefault();
   try {
-    await createUser( userData.email,  userPassword.value);
+    await createUser(userData.email, userPassword.value);
     //id
-    const {uid} = currentUser.value;
+    const { uid } = currentUser.value;
     userData.uid = uid;
     //data for backend
-    await addUserData(userData.uid , userData);
+    await addUserData(userData.uid, userData);
     await verifyEmail();
-    if(!error.value){
+    if (!error.value) {
       router.push("/selection");
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 };
 
 const submitLogin = async () => {
-  console.log("email:",  userData.email, "password:",  userPassword.value);
-  await loginUser( userData.email,  userPassword.value);
+  console.log("email:", userData.email, "password:", userPassword.value);
+  await loginUser(userData.email, userPassword.value);
   if (!error.value) {
     router.push("/dashboard");
   }
@@ -193,21 +197,19 @@ const googleLogin = async () => {
 
 const googleSignUp = async () => {
   await signUpWithGoogle();
-  const {uid} = currentUser.value;
+  const { uid } = currentUser.value;
   userData.uid = uid;
   //data for backend
-  await addUserData(userData.uid , userData);
+  await addUserData(userData.uid, userData);
   if (!error.value) {
     router.push("/selection");
   }
 };
 
-
 //Password
 const togglePwd = () => {
-  showPassword.value = !showPassword.value
-}
-
+  showPassword.value = !showPassword.value;
+};
 </script>
 
 <style scoped lang="scss">
@@ -271,7 +273,7 @@ const togglePwd = () => {
           }
         }
       }
-      .inputs{
+      .inputs {
         //Mediaquery
         @media screen and (max-width: 851px) {
           & {
@@ -280,38 +282,38 @@ const togglePwd = () => {
             align-items: center;
           }
         }
-        .password h3{
-          margin-top:10px;
-          font-size:15px;
-          a{
+        .password h3 {
+          margin-top: 10px;
+          font-size: 15px;
+          a {
             text-decoration: none;
           }
         }
-        .password_input, .email_input{
-        background-color:white;
-        border-radius: 10px;
-        padding: 10px;
-        display:flex;
-        justify-content:space-between;
-        width:250px;
-        button{
-          border:none;
-          
+        .password_input,
+        .email_input {
+          background-color: white;
+          border-radius: 10px;
+          padding: 10px;
+          display: flex;
+          justify-content: space-between;
+          width: 250px;
+          button {
+            border: none;
+          }
+        }
+        input {
+          border: 0;
+          background: white;
+          width: 100%;
+          &:focus {
+            outline: none;
+          }
         }
       }
-      input {
-        border: 0;
-        background:white;
-        width:100%;
-        &:focus{
-          outline: none;
-        }
-      }
-      }
-      .validation_box{
-        width:250px;
-        color:red;
-        margin:10px 0;
+      .validation_box {
+        width: 250px;
+        color: red;
+        margin: 10px 0;
       }
     }
   }

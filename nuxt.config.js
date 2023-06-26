@@ -1,19 +1,20 @@
 require("dotenv").config();
 export default defineNuxtConfig({
   ssr: true,
-  target: 'server',
+  target: "server",
   head: {
-    title: 'Ties',
+    title: "Ties",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
-        hid: 'Mental health site',
-        name: 'Ties',
-        content: 'Ties helps you with your mental health by letting you chat to kind listeners'
-      }
+        hid: "Mental health site",
+        name: "Ties",
+        content:
+          "Ties helps you with your mental health by letting you chat to kind listeners",
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
   modules: [
     ["@storyblok/nuxt", { accessToken: process.env.STORYBLOK_ACCESS_TOKEN }],
@@ -24,11 +25,11 @@ export default defineNuxtConfig({
       scss: { implementation: require("sass") },
     },
   },
-  server: {       
-    host: '0', 
-  }, 
+  server: {
+    host: "0",
+  },
   router: {
-    middleware: ['auth']
+    middleware: ["auth"],
   },
   vue: {
     config: {

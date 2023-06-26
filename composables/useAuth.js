@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { auth} from "~/plugins/firebase";
+import { auth } from "~/plugins/firebase";
 import { updateProfile } from "firebase/auth";
 import {
   createUserWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendEmailVerification,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 const useAuth = () => {
@@ -15,26 +15,13 @@ const useAuth = () => {
   const error = ref(null);
 
   //E-mail for verification or password reset
-const verifyEmail= async () => {
-  try {
-    const user = auth.currentUser
-    if (!user) {
-      throw new Error("User not signed in");
-    }
-    await sendEmailVerification(user)
-    error.value = null
-  } catch (err) {
-    console.log(err.message)
-    error.value = err.message
-  }
-}
-
-const passwordResetEmail = async (email) => {
+  const verifyEmail = async () => {
     try {
-      await sendPasswordResetEmail(
-        auth,
-        email,
-      );
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User not signed in");
+      }
+      await sendEmailVerification(user);
       error.value = null;
     } catch (err) {
       console.log(err.message);
@@ -42,7 +29,17 @@ const passwordResetEmail = async (email) => {
     }
   };
 
-//User
+  const passwordResetEmail = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      error.value = null;
+    } catch (err) {
+      console.log(err.message);
+      error.value = err.message;
+    }
+  };
+
+  //User
   const createUser = async (email, password) => {
     try {
       const { user } = await createUserWithEmailAndPassword(
@@ -55,20 +52,16 @@ const passwordResetEmail = async (email) => {
     } catch (err) {
       if (err.code == "auth/invalid-email") {
         error.value = "invalid email";
-      }
-      else if(err.code == "auth/email-already-in-use") {
+      } else if (err.code == "auth/email-already-in-use") {
         error.value = "e-mail already in use";
-      }
-      else if(err.code == "auth/weak-password") {
+      } else if (err.code == "auth/weak-password") {
         error.value = "password should be at least 6 characters long";
-      }
-      else{
+      } else {
         error.value = "please fill all the required fields";
       }
-      throw err
+      throw err;
     }
   };
-  
 
   const loginUser = async (email, password) => {
     try {
@@ -76,26 +69,21 @@ const passwordResetEmail = async (email) => {
       error.value = null;
       return user;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       if (err.code == "auth/invalid-email") {
         error.value = "Invalid email";
+      } else if (err.code == "auth/email-already-in-use") {
+        error.value = "e-mail already in use";
+      } else if (err.code == "auth/user-not-found") {
+        error.value = "user not found";
+      } else if (err.code == "auth/weak-password") {
+        error.value = "password should be at least 6 characters long";
+      } else if (err.code == "auth/wrong-password") {
+        error.value = "password not correct";
+      } else {
+        error.value = "please fill all the required fields";
       }
-      else if(err.code == "auth/email-already-in-use") {
-        error.value ="e-mail already in use";
-      }
-      else if(err.code == "auth/user-not-found") {
-        error.value ="user not found";
-      }
-      else if(err.code == "auth/weak-password") {
-        error.value ="password should be at least 6 characters long";
-      }
-      else if(err.code == "auth/wrong-password") {
-        error.value ="password not correct";
-      }
-      else{
-        error.value ="please fill all the required fields";
-      }
-      throw err
+      throw err;
     }
   };
 
@@ -109,7 +97,6 @@ const passwordResetEmail = async (email) => {
       error.value = err.message;
     }
   };
-
 
   //Google
   const loginWithGoogle = async () => {
@@ -132,7 +119,7 @@ const passwordResetEmail = async (email) => {
       return user;
     } catch (err) {
       error.value = err.message;
-      throw err
+      throw err;
     }
   };
 
@@ -147,7 +134,7 @@ const passwordResetEmail = async (email) => {
     try {
       await updateProfile(auth.currentUser, {
         displayName,
-        photoURL
+        photoURL,
       });
       error.value = null;
     } catch (err) {
@@ -155,7 +142,6 @@ const passwordResetEmail = async (email) => {
       error.value = err.message;
     }
   };
-  
 
   return {
     error,

@@ -18,10 +18,10 @@ defineProps({ blok: Object });
 
 <style scoped lang="scss">
 a {
-    h3 {
-      font-size: 20px;
-      margin: 0;
-      display: inline-block;
-    }
+  h3 {
+    font-size: 20px;
+    margin: 0;
+    display: inline-block;
+  }
 }
 </style>

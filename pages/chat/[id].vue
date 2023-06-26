@@ -1,49 +1,56 @@
 <template>
   <div v-if="chatData" class="container d-flex justify-content-center">
-    <div class="chat_container h_600 bg_colordark ">
-    <h1>This is {{ chatData.userName }}' s chat </h1>
-    <div ref="messageListRef" class="message_list d-flex flex-column">
-    <Message v-for="message in messageData" 
-    :text = "message.text"
-    :key="message.id"
-    :sender ="message.senderName"
-    :senderId = "message.senderId"
-    :senderPhoto = "message.senderPhoto">
-    {{ message }}
-  </Message>
-</div>
-  
-  <form class="d-flex align-items-center" @submit.prevent="sendMessage">
-      <input class="input-group-text" v-model="inputText" />
-      <button class="send_btn btn-outline-light btn btn-dark" type="submit">Send Message</button>
-    </form>
-  </div>
+    <div class="chat_container h_600 bg_colordark">
+      <h1>This is {{ chatData.userName }}' s chat</h1>
+      <div ref="messageListRef" class="message_list d-flex flex-column">
+        <Message
+          v-for="message in messageData"
+          :text="message.text"
+          :key="message.id"
+          :sender="message.senderName"
+          :senderId="message.senderId"
+          :senderPhoto="message.senderPhoto"
+        >
+          {{ message }}
+        </Message>
+      </div>
 
-  <div class="details h_400">
-    <h2>
-      About {{ chatData.userName }}:
-    </h2>
-    <p>{{ chatData.about }}</p>
-    <h2> Avoid discussing:</h2>
-    <p> {{ chatData.otherInfo}}</p>
-  </div>
+      <form class="d-flex align-items-center" @submit.prevent="sendMessage">
+        <input class="input-group-text" v-model="inputText" />
+        <button class="send_btn btn-outline-light btn btn-dark" type="submit">
+          Send Message
+        </button>
+      </form>
+    </div>
+
+    <div class="details h_400">
+      <h2>About {{ chatData.userName }}:</h2>
+      <p>{{ chatData.about }}</p>
+      <h2>Avoid discussing:</h2>
+      <p>{{ chatData.otherInfo }}</p>
+    </div>
   </div>
 </template>
 
-
 <script setup>
-import { serverTimestamp } from 'firebase/firestore';
+import { serverTimestamp } from "firebase/firestore";
 import { useRouter, useRoute } from "vue-router";
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount } from "vue";
 
-const { createMessages, getMessagesByChatId, getChatData, deleteChat, deleteMessages} = useDatabase();
+const {
+  createMessages,
+  getMessagesByChatId,
+  getChatData,
+  deleteChat,
+  deleteMessages,
+} = useDatabase();
 const { currentUser, error } = useAuth();
 //chat id
-const {id} = useRoute().params
+const { id } = useRoute().params;
 const router = useRouter();
 const messageData = getMessagesByChatId(id);
-const inputText = ref('');
-const chatData = ref('');
+const inputText = ref("");
+const chatData = ref("");
 const messageListRef = ref(null);
 
 //Delete chat when user changes page
@@ -63,7 +70,7 @@ onBeforeUnmount(deleteAndRedirect);
 onMounted(async () => {
   try {
     chatData.value = await getChatData(id);
-    console.log(chatData.value, "ALL CHAT DATA")
+    console.log(chatData.value, "ALL CHAT DATA");
   } catch (err) {
     console.log(err.message);
   }
@@ -84,8 +91,7 @@ const sendMessage = async () => {
     };
 
     await createMessages(message); // just create the message, onSnapshot will handle adding it to messageData
-    inputText.value = '';
-
+    inputText.value = "";
   } catch (err) {
     console.log(err.message);
   }
@@ -99,12 +105,11 @@ watch(messageData, () => {
 // Scroll to the bottom of the message list
 const scrollToBottom = () => {
   const messageList = messageListRef.value;
-  console.log(messageListRef.value, 'Value')
+  console.log(messageListRef.value, "Value");
   if (messageList) {
     messageList.scrollTop = messageList.scrollHeight;
   }
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -112,57 +117,58 @@ const scrollToBottom = () => {
   .container {
     flex-direction: column;
     align-items: center;
-    .chat_container, .details{
-      margin-bottom:20px;
-      width:100%;
-      form{
-        width:100%;
+    .chat_container,
+    .details {
+      margin-bottom: 20px;
+      width: 100%;
+      form {
+        width: 100%;
       }
     }
-    .details{
-      margin:0;
+    .details {
+      margin: 0;
     }
   }
 }
-.chat_container{
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+.chat_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 50px 80px 20px;
-  margin:100px 0;
+  margin: 100px 0;
   border-radius: 20px;
   border: 3px solid #ddd3c9;
-  width:900px;
-  .message_list{
+  width: 900px;
+  .message_list {
     overflow-y: auto;
     max-height: 400px;
   }
-  form{
-    background-color:#ddd3c9;
-    padding:5px;
-    margin:10px 0;
-    border-radius:20px;
-    flex-wrap:wrap;
+  form {
+    background-color: #ddd3c9;
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 20px;
+    flex-wrap: wrap;
   }
 }
-.details{
-  width:450px;
+.details {
+  width: 450px;
   padding: 40px;
-  margin:100px 0;
+  margin: 100px 0;
   border-radius: 20px;
-  background-color:black;
-  color:white;
-  margin-left:10px;
-  word-break:break-word;
-  overflow:auto;
+  background-color: black;
+  color: white;
+  margin-left: 10px;
+  word-break: break-word;
+  overflow: auto;
 }
-.send_btn{
-  margin:20px 0;
+.send_btn {
+  margin: 20px 0;
 }
-.input-group-text{
-  height:30px;
-  .button{
-    height:40px;
+.input-group-text {
+  height: 30px;
+  .button {
+    height: 40px;
   }
 }
 </style>

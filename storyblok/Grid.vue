@@ -24,8 +24,8 @@ defineProps({ blok: Object });
 
 <style scoped lang="scss">
 @media screen and (max-width: 400px) {
-  .grid{
-    padding-top:50px;
+  .grid {
+    padding-top: 50px;
   }
 }
 .grid {

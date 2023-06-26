@@ -1,16 +1,14 @@
 <template>
-    <div v-editable="blok">
-        <h2>
-                {{blok.headline}}
-            </h2>
-            <p>
-                {{ blok.description }}
-            </p>
+  <div v-editable="blok">
+    <h2>
+      {{ blok.headline }}
+    </h2>
+    <p>
+      {{ blok.description }}
+    </p>
+  </div>
+</template>
 
-    </div>
-  </template>
-  
-  <script setup>
-  defineProps({ blok: Object });
-  </script>
-  
+<script setup>
+defineProps({ blok: Object });
+</script>
