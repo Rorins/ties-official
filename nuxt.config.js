@@ -25,8 +25,8 @@ export default defineNuxtConfig({
       scss: { implementation: require("sass") },
     },
   },
-  server: {
-    host: "0",
+  axios: {
+    proxy: true, 
   },
   router: {
     middleware: ["auth"],

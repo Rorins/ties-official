@@ -71,6 +71,11 @@
               <h1>
                 Hello, {{ userData ? userData.nickName : "Loading..." }}. This
                 is your dashboard.
+
+                <div>
+                 <AiChat/>
+                </div>
+
               </h1>
               <div class="btn_box">
                 <button
