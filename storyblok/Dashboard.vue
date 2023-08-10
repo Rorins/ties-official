@@ -63,6 +63,15 @@
                   </button>
                 </div>
               </div>
+              <h4>
+                Or
+              </h4>
+              <button
+                    class="btn-outline-light btn btn-dark"
+                    @click="pushToAi"
+                  >
+                Chat with Ai
+                </button>
             </div>
           </div>
 
@@ -71,11 +80,6 @@
               <h1>
                 Hello, {{ userData ? userData.nickName : "Loading..." }}. This
                 is your dashboard.
-
-                <div>
-                 <AiChat/>
-                </div>
-
               </h1>
               <div class="btn_box">
                 <button
@@ -249,6 +253,10 @@ const updateInfo = () => {
 
 const pushToChat = (chatId) => {
   router.push(`/chat/${chatId}`);
+};
+
+const pushToAi = () => {
+  router.push(`/ai`);
 };
 
 const changeProfile = () => {
