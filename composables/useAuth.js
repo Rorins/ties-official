@@ -13,6 +13,18 @@ import {
 const useAuth = () => {
   const currentUser = ref(null);
   const error = ref(null);
+  const authenticated = ref(false);
+ 
+  //update authentication for Ai
+  const updateAuthentication = (value) => {
+    console.log("Updating authenticated to:", value);
+    authenticated.value = value;
+    if (value) {
+      localStorage.setItem('authenticated', 'true');
+    } else {
+      localStorage.removeItem('authenticated');
+    }
+  };
 
   //E-mail for verification or password reset
   const verifyEmail = async () => {
@@ -154,6 +166,7 @@ const useAuth = () => {
     verifyEmail,
     passwordResetEmail,
     updateUserProfile,
+    updateAuthentication,
   };
 };
 

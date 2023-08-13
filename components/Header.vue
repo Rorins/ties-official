@@ -87,7 +87,7 @@ import { useRouter } from "vue-router";
 import useAuth from "~/composables/useAuth";
 
 //Functions firebase for authentication
-const { currentUser, logoutUser, error } = useAuth();
+const { currentUser, logoutUser, error, updateAuthentication } = useAuth();
 const router = useRouter();
 
 const menuOpen = ref(false);
@@ -106,7 +106,10 @@ function toggleAccountMenu() {
 
 //logout
 const handleLogout = async () => {
+  console.log("Logging out...");
   await logoutUser();
+  updateAuthentication(false);
+  console.log("Logout completed.");
   if (!error.value) {
     router.push("/");
   }

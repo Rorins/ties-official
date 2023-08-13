@@ -10,6 +10,7 @@
   </template>
   
   <script setup>
+  const { currentUser } = useAuth();
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
   

@@ -11,17 +11,12 @@
                   :src="userData ? userData.currentImgUrl : blok.img?.filename"
                   :alt="blok.img?.alt"
                 />
+                <div @click="changeProfile" class="profile_btn">
+                 <span>Change Profile</span>
+                </div>
               </div>
               <div>
                 <h2>{{ userData ? userData.nickName : "Loading..." }}</h2>
-              </div>
-              <div>
-                <button
-                  @click="changeProfile"
-                  class="btn-outline-light btn btn-dark"
-                >
-                  Change profile
-                </button>
               </div>
             </div>
 
@@ -85,7 +80,7 @@
                 <button
                   @click="updateInfo"
                   v-if="!showInputSection"
-                  class="btn-outline-light btn btn-dark"
+                  class="btn-outline-dark btn btn-light"
                 >
                   Change your info
                 </button>
@@ -171,6 +166,18 @@
                   <h2 v-else>Your triggers</h2>
                   <p>{{ userData.triggers }}</p>
                 </div>
+
+              <div class="premium_choices">
+                <h3>Become a member</h3>
+               <button class="btn-outline-dark btn btn-light">
+                Journal /
+                Group Meditation
+                <span>Coming soon</span>
+               </button>
+               <button class="btn-outline-dark btn btn-light">
+                Penpal
+               </button>
+              </div>
               </div>
 
               <!-- Loading message -->
@@ -322,12 +329,36 @@ const uniqueChatList = computed(() => {
       height: 200px;
       border-radius: 50%;
       background-color: white;
+      position:relative;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: inherit;
       }
+      .profile_btn{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        background-color:rgba(0, 0, 0, 0.256);
+        position:absolute;
+        top:0;
+        border-radius:inherit;
+        opacity: 0; 
+        transition: opacity 0.3s ease; 
+        cursor:pointer;
+        &:hover{
+          opacity:1;
+        }
+        span{
+          display:flex;
+          justify-content: center;
+          align-items:center;
+          height:100%;
+          color:white;
+        }
+      }
+
     }
   }
   .chat_box {
@@ -387,6 +418,14 @@ const uniqueChatList = computed(() => {
       .updated_section {
         margin: 50px 0;
       }
+    }
+  }
+  .premium_choices{
+    background-color:#ddd3c9;
+    padding:10px;
+    border-radius:20px;
+    button{
+      margin-right:10px;
     }
   }
 }
