@@ -6,7 +6,8 @@
     "dev": "nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "vercel-local": "vercel dev"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
