@@ -12,7 +12,7 @@
   <script setup>
   const { currentUser } = useAuth();
   import { ref, onMounted } from 'vue';
-  import axios from 'axios';
+  import axios from 'redaxios';
   
   const message = ref('');
   const responses = ref([]);
