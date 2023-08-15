@@ -1,8 +1,0 @@
-{
-    "routes": [
-      { "src": "/api/authenticate", "dest": "/api/authenticate.js" },
-      { "src": "/api/chat", "dest": "/api/chat.js" },
-      { "src": "/api/upgrade", "dest": "/api/upgrade.js" }
-    ]
-  }
-  
