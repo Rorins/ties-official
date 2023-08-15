@@ -28,12 +28,12 @@
       loading.value = true;
 
       if (!authenticated.value) {
-      await axios.post('http://localhost:5000/authenticate'); // Authenticate only if not already authenticated
+      await axios.post('/api/authenticate'); // Authenticate only if not already authenticated
       authenticated.value = true; 
       saveAuthenticatedToLocalStorage()
       } 
 
-      const apiResponse = await axios.post('http://localhost:5000/chat', {
+      const apiResponse = await axios.post('/api/chat', {
         message: message.value,
       });
       responses.value.push(apiResponse.data.text);
@@ -50,7 +50,7 @@
 
 const upgradeToPremium = async () => {
   try {
-    const response = await axios.post('http://localhost:5000/upgrade', {
+    const response = await axios.post('/api/upgrade', {
       notPremium: false, // Send the notPremium value to the backend
     });
    
