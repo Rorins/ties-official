@@ -1,5 +1,8 @@
 const CharacterAI = require('node_characterai');
 const characterAI = new CharacterAI();
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+puppeteer.use(StealthPlugin());
+
 const userToken = process.env.USER_TOKEN;
 let notPremium = true;
 
