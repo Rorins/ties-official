@@ -1,0 +1,14 @@
+{
+    "functions": {
+      "api/authenticate/*.js": {
+        "runtime": "vercel-node@16"
+      },
+      "api/chat/*.js": {
+        "runtime": "vercel-node@16"
+      },
+      "api/upgrade/*.js": {
+        "runtime": "vercel-node@16"
+      }
+    }
+  }
+  
