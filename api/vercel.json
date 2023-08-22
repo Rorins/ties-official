@@ -1,12 +1,12 @@
 {
   "functions": {
-    "api/authenticate/authenticate.js": {
+    "api/authenticate.js": {
       "runtime": "vercel-node@16"
     },
-    "api/chat/chat.js": {
+    "api/chat.js": {
       "runtime": "vercel-node@16"
     },
-    "api/upgrade/upgrade.js": {
+    "api/upgrade.js": {
       "runtime": "vercel-node@16"
     }
   }
