@@ -1,8 +1,5 @@
 const CharacterAI = require('node_characterai');
 const characterAI = new CharacterAI();
-const puppeteer = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-puppeteer.use(StealthPlugin());
 
 const userToken = process.env.USER_TOKEN;
 let notPremium = true;
@@ -15,7 +12,7 @@ async function authenticateCharacterAI() {
         } else {
           await characterAI.authenticateWithToken(userToken);
           console.log("Character AI authenticated with token.");
-        }
+        }ac
       } catch (error) {
         console.error("Error authenticating Character AI:", error);
         process.exit(1); // Exit the server if authentication fails
