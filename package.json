@@ -34,5 +34,8 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "redaxios": "^0.5.1",
     "swiper": "^9.2.3"
+  },
+  "pkg": {
+    "scripts": ["node_modules/puppeteer/lib/*.js", "node_modules/puppeteer-extra-plugin-stealth/**/*.js"]
   }
 }
