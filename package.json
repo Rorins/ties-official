@@ -7,7 +7,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "vercel-local": "vercel dev"
+    "vercel-local": "vercel dev",
+    "deploy": "npm install && vercel --prod"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
