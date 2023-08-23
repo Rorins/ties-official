@@ -20,7 +20,7 @@
   const prompt = ref(false);
   const authenticated = ref(false);
 
-
+ //functions for backend
   const sendMessage = async () => {
     try {
       console.log('sending message');
