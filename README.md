@@ -5,6 +5,10 @@ This application was made in collaboration with Joey Pedicini: https://www.joeyp
   <img src="https://contrib.rocks/image?repo=rorins/ties-official" />
 </a>
 
+# Some documentation
+
+[chatroomArchitecture.pdf](https://github.com/user-attachments/files/23286213/chatroomArchitecture.pdf)
+
 # About The Project
 
 https://ties-official-dpy6tidvt-aurora268.vercel.app/
