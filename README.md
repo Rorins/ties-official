@@ -17,6 +17,12 @@ Two roles are possible: listeners and people that want somebody to listen.
 
 ![immagine](https://github.com/Rorins/ties-official/assets/77445911/5516e1fa-6007-40c6-92b8-7fda34c04cac)
 
+<img width="1876" height="912" alt="Screenshot 2025-11-01 191412" src="https://github.com/user-attachments/assets/05754699-cf6d-4018-908c-22ae2e78fa48" />
+
+<img width="1851" height="845" alt="image" src="https://github.com/user-attachments/assets/141bed9b-b4fb-4f1e-b81f-f2974efd1004" />
+
+<img width="1423" height="754" alt="Immagine 2023-04-19 184333" src="https://github.com/user-attachments/assets/a562d1aa-7e88-4d5e-9a52-70875f88cffc" />
+
 
 ### Built With
 
