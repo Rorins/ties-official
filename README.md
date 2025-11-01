@@ -1,4 +1,6 @@
 # Contributors 
+This application is made with the collaboration of Joey Pedicini: https://www.joeypedicini.com/
+
 <a href="https://github.com/rorins/ties-official/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=rorins/ties-official" />
 </a>
