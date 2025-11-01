@@ -5,6 +5,8 @@
 
 # About The Project
 
+https://ties-official-dpy6tidvt-aurora268.vercel.app/
+
 ![immagine](https://github.com/Rorins/ties-official/assets/77445911/5516e1fa-6007-40c6-92b8-7fda34c04cac)
 
 
